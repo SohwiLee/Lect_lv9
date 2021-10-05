@@ -60,7 +60,10 @@ public class Shop {
 
 	// 로그인-쇼핑
 	private void shopMenu() {
-		// TODO Auto-generated method stub
+		boolean run = true;
+		while(run) {
+			
+		}
 
 	}
 

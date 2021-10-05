@@ -28,8 +28,6 @@ public class UserManager {
 		}
 	}
 
-	
-
 	public boolean login() {
 		userLog = -1;
 		System.out.print("ID:");
@@ -43,10 +41,11 @@ public class UserManager {
 		if (userLog != -1) {
 			System.out.println("로그인 성공!");
 			System.out.println(userList.get(userLog).id + "님 환영합니다!");
+			return true;
 		} else {
 			System.out.println("존재하지 않는 아이디입니다.");
+			return false;
 		}
-		return false;
 	}
 
 	public void logout() {
@@ -61,17 +60,17 @@ public class UserManager {
 	public void joinMember() {
 		System.out.print("ID:");
 		String id = scan.next();
-		boolean check=true;
+		boolean check = true;
 		for (int i = 0; i < userList.size(); i++) {
 			if (userList.get(i).id.equals(id)) {
-				check=false;
-			}			
+				check = false;
+			}
 		}
-		if(check) {
+		if (check) {
 			User temp = new User(id, 0);
 			userList.add(temp);
-			System.out.println(temp.id + "님 가입완료되었습니다.");			
-		}else {
+			System.out.println(temp.id + "님 가입완료되었습니다.");
+		} else {
 			System.out.println("이미 존재하는 아이디입니다.");
 		}
 	}
@@ -85,6 +84,7 @@ public class UserManager {
 			}
 		}
 	}
+
 	public void printUser() {
 		for (int i = 0; i < userList.size(); i++) {
 			userList.get(i).print();
