@@ -62,14 +62,14 @@ public class Shop {
 			im.printCategory();
 			System.out.print("카테고리 번호 (종료:-1) : ");
 			String input = scan.next();
-			int categorySel = Integer.parseInt(input);
+			int categorySel = Integer.parseInt(input)-1;
 			if (categorySel == -1) {
 				break;
 			}
 			im.printItemList(categorySel);
 			System.out.print("아이템 번호 : ");
 			input = scan.next();
-			int itemSel = Integer.parseInt(input);
+			int itemSel = Integer.parseInt(input)-1;
 			// 쇼핑 후 장바구니에 담기
 			im.addCart(um.userList.get(um.userLog).id, categorySel, itemSel);
 		}
@@ -82,7 +82,7 @@ public class Shop {
 
 	}
 
-	// 관리자 메뉴
+	// 관리자 전체메뉴
 	private void managerMenu() {
 		boolean run = true;
 		while (run) {
@@ -96,15 +96,21 @@ public class Shop {
 			} else if (sel == 2) {
 				categoryMenu();
 			} else if (sel == 3) {
+				jangMenu();
 			} else if (sel == 4) {
 				userMenu();
 			} else if (sel == 0) {
-				run=false;
+				run = false;
 			}
 		}
 
 	}
 
+	private void jangMenu() {
+		im.printJang();		
+	}
+
+	// 관리자-아이템
 	private void itemMenu() {
 		boolean run = true;
 		while (run) {
@@ -114,13 +120,17 @@ public class Shop {
 			if (sel == 1) {
 				im.printItemList();
 			} else if (sel == 2) {
+				im.addItem();
 			} else if (sel == 3) {
-			} else if (sel == 4) {
+				im.removeItem();
+			} else if (sel == 0) {
+				run = false;
 			}
 		}
 
 	}
 
+	// 관리자-카테고리
 	private void categoryMenu() {
 		boolean run = true;
 		while (run) {
@@ -128,15 +138,19 @@ public class Shop {
 			String input = scan.next();
 			int sel = Integer.parseInt(input);
 			if (sel == 1) {
-			} else if (sel == 2) {
 				im.printCategory();
+			} else if (sel == 2) {
+				im.addCategory();
 			} else if (sel == 3) {
-			} else if (sel == 4) {
+				im.removeCategory();
+			} else if (sel == 0) {
+				run = false;
 			}
 		}
 
 	}
 
+	// 관리자-유저
 	private void userMenu() {
 		boolean run = true;
 		while (run) {
@@ -149,8 +163,8 @@ public class Shop {
 				um.joinMember();
 			} else if (sel == 3) {
 				um.removeMember();
-			} else if (sel == 4) {
-				run=false;
+			} else if (sel == 0) {
+				run = false;
 			}
 		}
 

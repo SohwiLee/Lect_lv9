@@ -11,7 +11,7 @@ public class Item {
 	}
 	
 	public void print() {
-		System.out.println("[" + name + "]" + "[" + price + "]" + "[" + category + "]");
+		System.out.println(name+ "	" + price + "	" + category);
 	}
 
 }

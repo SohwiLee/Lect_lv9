@@ -29,7 +29,7 @@ public class UserManager {
 	}
 
 	public boolean login() {
-		userLog = -1;
+		userLog=-1;
 		System.out.print("ID:");
 		String id = scan.next();
 		for (int i = 0; i < userList.size(); i++) {
@@ -76,17 +76,25 @@ public class UserManager {
 	}
 
 	public void removeMember() {
+		printUser();
 		System.out.print("ID:");
 		String id = scan.next();
+		boolean check=true;
 		for (int i = 0; i < userList.size(); i++) {
 			if (userList.get(i).id.equals(id)) {
+				check=false;
 				userList.remove(i);
+				System.out.println("탈퇴 완료되었습니다.");
 			}
+		}
+		if(check) {			
+			System.out.println("없는 아이디입니다.");
 		}
 	}
 
 	public void printUser() {
 		for (int i = 0; i < userList.size(); i++) {
+			System.out.print((i+1)+") ");
 			userList.get(i).print();
 		}
 	}

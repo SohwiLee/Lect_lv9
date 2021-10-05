@@ -48,6 +48,7 @@ public class ItemManager {
 	// 카테고리들
 	public void printCategory() {
 		for (int i = 0; i < category.size(); i++) {
+			System.out.print((i+1)+") ");
 			System.out.println(category.get(i));
 		}
 	}
@@ -55,14 +56,18 @@ public class ItemManager {
 	// 아이템리스트
 	public void printItemList() {
 		for (int i = 0; i < itemList.size(); i++) {
+			System.out.print((i+1)+") ");
 			itemList.get(i).print();
 		}
 	}
 
 	public void printItemList(int caId) {
+		int n = 0;
 		for (int i = 0; i < itemList.size(); i++) {
 			if (category.get(caId).equals(itemList.get(i).category)) {
+				System.out.print((n+1)+") ");
 				itemList.get(i).print();
+				n++;
 			}
 		}
 	}
@@ -81,6 +86,71 @@ public class ItemManager {
 			}
 		}
 		jangList.add(temp);
+	}
+
+	public void addItem() {
+		System.out.print("추가할 아이템 : ");
+		String name = scan.next();
+		System.out.print("아이템 가격: ");
+		int price = scan.nextInt();
+		printCategory();
+		System.out.print("카테고리 선택(1~"+category.size()+") : ");
+		int sel = scan.nextInt()-1;
+		Item temp = new Item(name, price, category.get(sel));
+		itemList.add(temp);
+	}
+
+	public void removeItem() {
+		printItemList();
+		System.out.print("삭제할 아이템 : ");
+		String name = scan.next();
+		boolean check=true;
+		for(int i=0;i<itemList.size();i++) {
+			if(itemList.get(i).name.equals(name)) {
+				check=false;
+				itemList.remove(i);
+				System.out.println("삭제완료");
+			}
+		}
+		if(check) {
+			System.out.println("존재하지 않는 아이템입니다.");
+		}
+	}
+
+	public void addCategory() {
+		System.out.print("추가할 카테고리 : ");
+		String name = scan.next();
+		boolean check=true;
+		for(int i=0;i<category.size();i++) {
+			if(category.get(i).equals(name)) {
+				check=false;
+			}
+		}
+		if(!check) {
+			System.out.println("이미 존재하는 카테고리입니다.");
+		}else{
+			category.add(name);
+		}
+		
+		
+	}
+
+	public void removeCategory() {
+		printCategory();
+		System.out.print("삭제할 카테고리 : ");
+		String name = scan.next();
+		boolean check=true;
+		for(int i=0;i<category.size();i++) {
+			if(category.get(i).equals(name)) {
+				check=false;
+				category.remove(i);
+				System.out.println("삭제완료");
+			}
+		}
+		if(check) {
+			System.out.println("없는 카테고리입니다.");
+		}
+		
 	}
 
 }
