@@ -9,7 +9,7 @@ public class User {
 	}
 	
 	public void print() {
-		System.out.println("[" + id + "] " + "금액 : " + money);
+		System.out.println("[ID : " + id + "] " + "금액 : " + money);
 	}
 
 }

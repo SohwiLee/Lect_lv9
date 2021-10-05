@@ -3,13 +3,14 @@ import java.util.Vector;
 
 public class ItemManager {
 	Scanner scan = new Scanner(System.in);
-	Vector<String> category = new Vector<>(); 
+	Vector<String> category = new Vector<>();
 	Vector<Item> itemList = new Vector<>(); // 전체아이템리스트
 	Vector<Cart> jangList = new Vector<>(); // 전체 장바구니
-	
+
 	public ItemManager() {
 		init();
 	}
+
 	public void init() {
 		category.add("과자");
 		category.add("생선");
@@ -28,29 +29,58 @@ public class ItemManager {
 		temp = new Item("콜라", 500, category.get(3));
 		itemList.add(temp);
 	}
-	
-	//장바구니리스트
+
+	// 장바구니리스트
 	public void printJang() {
-		for(int i=0;i<jangList.size();i++) {
+		for (int i = 0; i < jangList.size(); i++) {
 			jangList.get(i).print();
 		}
 	}
+
 	public void printJang(User u) {
-		for(int i=0;i<jangList.size();i++) {
-			if(u.id.equals(jangList.get(i).userId)) {
+		for (int i = 0; i < jangList.size(); i++) {
+			if (u.id.equals(jangList.get(i).userId)) {
 				jangList.get(i).print();
 			}
 		}
 	}
-	
+
 	// 카테고리들
 	public void printCategory() {
-		for(int i=0;i<category.size();i++) {
+		for (int i = 0; i < category.size(); i++) {
 			System.out.println(category.get(i));
 		}
 	}
-	
+
 	// 아이템리스트
-	public void printItemList() {}
+	public void printItemList() {
+		for (int i = 0; i < itemList.size(); i++) {
+			itemList.get(i).print();
+		}
+	}
+
+	public void printItemList(int caId) {
+		for (int i = 0; i < itemList.size(); i++) {
+			if (category.get(caId).equals(itemList.get(i).category)) {
+				itemList.get(i).print();
+			}
+		}
+	}
+
+	// 장바구니에 쇼핑아이템 추가
+	public void addCart(String userId, int categoryId, int itemId) {
+		int n = 0;
+		Cart temp = new Cart();
+		temp.userId = userId;
+		for (int i = 0; i < itemList.size(); i++) {
+			if (category.get(categoryId).equals(itemList.get(i).category)) {
+				if (itemId == n) {
+					temp.itemName = itemList.get(i).name;
+				}
+				n++;
+			}
+		}
+		jangList.add(temp);
+	}
 
 }
