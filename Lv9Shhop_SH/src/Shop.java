@@ -71,8 +71,12 @@ public class Shop {
 				input = scan.next();
 				int itemSel = Integer.parseInt(input) - 1;
 				// 각각 아이템리스트 크기 구하기
+				if(itemSel>0 && itemSel < im.itemListSize(categorySel)) {
+					im.addCart(um.userList.get(um.userLog).id, categorySel, itemSel);					
+				} else {
+					System.out.println("없는 아이템 번호입니다.");
+				}
 				// 쇼핑 후 장바구니에 담기
-				im.addCart(um.userList.get(um.userLog).id, categorySel, itemSel);
 			} else {
 				System.out.println("없는 카테고리입니다.");
 			}

@@ -75,6 +75,8 @@ public class ItemManager {
 			}
 		}
 	}
+	
+	public int itemListSize(int index) {return itemList.get(index).category.length();}
 
 	// 장바구니에 쇼핑아이템 추가
 	public void addCart(String userId, int categoryId, int itemId) {
