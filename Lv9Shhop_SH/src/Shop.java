@@ -62,24 +62,29 @@ public class Shop {
 			im.printCategory();
 			System.out.print("카테고리 번호 (종료:-1) : ");
 			String input = scan.next();
-			int categorySel = Integer.parseInt(input)-1;
-			if (categorySel == -1) {
+			int categorySel = Integer.parseInt(input) - 1;
+			if (categorySel == -2) {
 				break;
+			} else if (categorySel >= 0 && categorySel < im.category.size()) {
+				im.printItemList(categorySel);
+				System.out.print("아이템 번호 : ");
+				input = scan.next();
+				int itemSel = Integer.parseInt(input) - 1;
+				// 각각 아이템리스트 크기 구하기
+				// 쇼핑 후 장바구니에 담기
+				im.addCart(um.userList.get(um.userLog).id, categorySel, itemSel);
+			} else {
+				System.out.println("없는 카테고리입니다.");
 			}
-			im.printItemList(categorySel);
-			System.out.print("아이템 번호 : ");
-			input = scan.next();
-			int itemSel = Integer.parseInt(input)-1;
-			// 쇼핑 후 장바구니에 담기
-			im.addCart(um.userList.get(um.userLog).id, categorySel, itemSel);
 		}
 
 	}
 
 	// 로그인-장바구니목록
 	private void cartMenu() {
-		// TODO Auto-generated method stub
-
+		String id = um.getUser(um.userLog).id;
+		User getUser = new User(id);
+		im.printJang(getUser);
 	}
 
 	// 관리자 전체메뉴
@@ -107,7 +112,7 @@ public class Shop {
 	}
 
 	private void jangMenu() {
-		im.printJang();		
+		im.printJang();
 	}
 
 	// 관리자-아이템
