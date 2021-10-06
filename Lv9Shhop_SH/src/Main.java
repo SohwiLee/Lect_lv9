@@ -1,3 +1,4 @@
+import controller.Shop;
 
 public class Main {
 

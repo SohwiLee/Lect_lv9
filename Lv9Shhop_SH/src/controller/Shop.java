@@ -1,4 +1,8 @@
+package controller;
+
 import java.util.Scanner;
+
+import models.User;
 
 public class Shop {
 	Scanner scan = new Scanner(System.in);
@@ -62,17 +66,18 @@ public class Shop {
 			im.printCategory();
 			System.out.print("카테고리 번호 (종료:-1) : ");
 			String input = scan.next();
-			int categorySel = Integer.parseInt(input) - 1;
-			if (categorySel == -2) {
+			int caIdx = Integer.parseInt(input) - 1;
+			if (caIdx == -2) {
 				break;
-			} else if (categorySel >= 0 && categorySel < im.category.size()) {
-				im.printItemList(categorySel);
+			} else if (caIdx >= 0 && caIdx < im.category.size()) {
+				im.printItemList(caIdx);
 				System.out.print("아이템 번호 : ");
 				input = scan.next();
-				int itemSel = Integer.parseInt(input) - 1;
+				int itemIdx = Integer.parseInt(input) - 1;
 				// 각각 아이템리스트 크기 구하기
-				if(itemSel>0 && itemSel < im.itemListSize(categorySel)) {
-					im.addCart(um.userList.get(um.userLog).id, categorySel, itemSel);					
+				if (itemIdx >= 0 && itemIdx < im.itemListSize(caIdx)) {
+					im.addCart(um.userList.get(um.userLog).id, caIdx, itemIdx);
+					
 				} else {
 					System.out.println("없는 아이템 번호입니다.");
 				}

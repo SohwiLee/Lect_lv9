@@ -1,6 +1,7 @@
+package models;
 
 public class User {
-	String id;
+	public String id;
 	int money;
 	
 	public User(String id) {

@@ -1,12 +1,15 @@
+package controller;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
 
+import models.User;
+
 public class UserManager {
 	Random ran = new Random();
 	Scanner scan = new Scanner(System.in);
-	Vector<User> userList = new Vector<>(); // 전체 유저 리스트
-	int userLog = -1; // 로그인기본값 -1
+	public Vector<User> userList = new Vector<>(); // 전체 유저 리스트
+	public int userLog = -1; // 로그인기본값 -1
 
 	public UserManager() {
 //		init();

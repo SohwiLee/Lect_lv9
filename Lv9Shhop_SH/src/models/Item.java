@@ -1,8 +1,9 @@
+package models;
 
 public class Item {
-	String name;
+	public String name;
 	int price;
-	String category;
+	public String category;
 
 	public Item(String name, int price, String category) {
 		this.name = name;

@@ -1,9 +1,15 @@
+package controller;
+
 import java.util.Scanner;
 import java.util.Vector;
 
+import models.Cart;
+import models.Item;
+import models.User;
+
 public class ItemManager {
 	Scanner scan = new Scanner(System.in);
-	Vector<String> category = new Vector<>();
+	public Vector<String> category = new Vector<>();
 	Vector<Item> itemList = new Vector<>(); // 전체아이템리스트
 	Vector<Cart> jangList = new Vector<>(); // 전체 장바구니
 
@@ -44,7 +50,7 @@ public class ItemManager {
 	public void printJang(User u) {
 		for (int i = 0; i < jangList.size(); i++) {
 			if (u.id.equals(jangList.get(i).userId)) {
-				jangList.get(i).print();
+				jangList.get(i).printPersonalCart();
 			}
 		}
 	}
@@ -75,18 +81,27 @@ public class ItemManager {
 			}
 		}
 	}
-	
-	public int itemListSize(int index) {return itemList.get(index).category.length();}
+
+	public int itemListSize(int index) {
+		return itemList.get(index).category.length();
+	}
 
 	// 장바구니에 쇼핑아이템 추가
 	public void addCart(String userId, int categoryId, int itemId) {
 		int n = 0;
 		Cart temp = new Cart();
 		temp.userId = userId;
+		temp.cnt = 1;
 		for (int i = 0; i < itemList.size(); i++) {
 			if (category.get(categoryId).equals(itemList.get(i).category)) {
 				if (itemId == n) {
 					temp.itemName = itemList.get(i).name;
+					for (int j = 0; j < jangList.size(); j++) {
+						if (jangList.get(j).itemName.equals(temp.itemName)) {
+							temp.cnt++;
+						}
+					}
+					System.out.println("cnt:" + temp.cnt);
 				}
 				n++;
 			}
