@@ -1,13 +1,13 @@
 package models;
 
 public class Cart {
-	public String userId; // ±¸ÀÔÇÑ À¯Àúid
-	public String itemName; // ±¸ÀÔÇÑ ¾ÆÀÌÅÛ
-	public int cnt; // ±¸¸Å¼ö·®
+	public String userId; // êµ¬ì…í•œ ìœ ì €id
+	public String itemName; // êµ¬ì…í•œ ìœ ì € ì•„ì´í…œ
+	public int cnt; // êµ¬ë§¤ìˆ˜ëŸ‰
 	public void print() {
-		System.out.println("[" + userId + "]" + "¾ÆÀÌÅÛ : " + itemName);
+		System.out.println("[" + userId + "]" + "ì•„ì´í…œ : " + itemName);
 	}
 	public void printPersonalCart() {
-		System.out.println("¾ÆÀÌÅÛ : " + itemName+" "+cnt+"°³");
+		System.out.println("ì•„ì´í…œ : " + itemName+" "+cnt+"ê°œ");
 	}
 }

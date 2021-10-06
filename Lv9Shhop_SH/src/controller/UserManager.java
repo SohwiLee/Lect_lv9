@@ -8,8 +8,8 @@ import models.User;
 public class UserManager {
 	Random ran = new Random();
 	Scanner scan = new Scanner(System.in);
-	public Vector<User> userList = new Vector<>(); // ÀüÃ¼ À¯Àú ¸®½ºÆ®
-	public int userLog = -1; // ·Î±×ÀÎ±âº»°ª -1
+	public Vector<User> userList = new Vector<>(); // ì „ì²´ ìœ ì € ë¦¬ìŠ¤íŠ¸
+	public int userLog = -1; // ë¡œê·¸ì¸ê¸°ë³¸ê°’ -1
 
 	public UserManager() {
 //		init();
@@ -20,9 +20,9 @@ public class UserManager {
 	}
 
 	public void init() {
-		String[] a = { "±è", "¹Ú", "ÀÌ", "ÃÖ", "Á¤", "¿À" };
-		String[] b = { "Ã¶", "º´", "¸¸", "¿©", "¾Æ", "¿µ" };
-		String[] c = { "¼ö", "¿í", "¼ö", "Á¤", "¸§", "Èñ" };
+		String[] a = { "ê¹€", "ë°•", "ì´", "ìµœ", "ì •", "ì˜¤" };
+		String[] b = { "ì² ", "ë³‘", "ë§Œ", "ì—¬", "ì•„", "ì˜" };
+		String[] c = { "ìˆ˜", "ìš±", "ìˆ˜", "ì •", "ë¦„", "í¬" };
 		for (int i = 0; i < 10; i++) {
 			int r = ran.nextInt(a.length);
 			String name = a[r];
@@ -46,20 +46,20 @@ public class UserManager {
 			}
 		}
 		if (userLog != -1) {
-			System.out.println("·Î±×ÀÎ ¼º°ø!");
-			System.out.println(userList.get(userLog).id + "´Ô È¯¿µÇÕ´Ï´Ù!");
+			System.out.println("ë¡œê·¸ì¸ ì„±ê³µ!");
+			System.out.println(userList.get(userLog).id + "ë‹˜ í™˜ì˜í•©ë‹ˆë‹¤!");
 			return true;
 		} else {
-			System.out.println("Á¸ÀçÇÏÁö ¾Ê´Â ¾ÆÀÌµğÀÔ´Ï´Ù.");
+			System.out.println("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ì•„ì´ë””ì…ë‹ˆë‹¤.");
 			return false;
 		}
 	}
 
 	public void logout() {
 		if (userLog == -1) {
-			System.out.println("ÀÌ¹Ì ·Î±×¾Æ¿ô »óÅÂÀÔ´Ï´Ù.");
+			System.out.println("ì´ë¯¸ ë¡œê·¸ì•„ì›ƒ ìƒíƒœì…ë‹ˆë‹¤.");
 		} else {
-			System.out.println("·Î±×¾Æ¿ô ¿Ï·á");
+			System.out.println("ë¡œê·¸ì•„ì›ƒ ì™„ë£Œ");
 		}
 		userLog = -1;
 	}
@@ -76,9 +76,9 @@ public class UserManager {
 		if (check) {
 			User temp = new User(id, 0);
 			userList.add(temp);
-			System.out.println(temp.id + "´Ô °¡ÀÔ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+			System.out.println(temp.id + "ë‹˜ ê°€ì…ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 		} else {
-			System.out.println("ÀÌ¹Ì Á¸ÀçÇÏ´Â ¾ÆÀÌµğÀÔ´Ï´Ù.");
+			System.out.println("ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ì•„ì´ë””ì…ë‹ˆë‹¤.");
 		}
 	}
 
@@ -91,11 +91,11 @@ public class UserManager {
 			if (userList.get(i).id.equals(id)) {
 				check = false;
 				userList.remove(i);
-				System.out.println("Å»Åğ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+				System.out.println("íƒˆí‡´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
 		}
 		if (check) {
-			System.out.println("¾ø´Â ¾ÆÀÌµğÀÔ´Ï´Ù.");
+			System.out.println("ì—†ëŠ” ì•„ì´ë””ì…ë‹ˆë‹¤.");
 		}
 	}
 

@@ -9,12 +9,12 @@ public class Shop {
 	ItemManager im = new ItemManager();
 	UserManager um = new UserManager();
 
-	// ±âº»È­¸é
+	// ê¸°ë³¸í™”ë©´
 	public void mainMenu() {
 		boolean run = true;
 		while (run) {
-			System.out.println("1.°¡ÀÔ 2.Å»Åð 3.·Î±×ÀÎ 4.·Î±×¾Æ¿ô / 100.°ü¸®ÀÚ 0.Á¾·á");
-			System.out.print("¸Þ´º¼±ÅÃ : ");
+			System.out.println("1.ê°€ìž… 2.íƒˆí‡´ 3.ë¡œê·¸ì¸ 4.ë¡œê·¸ì•„ì›ƒ / 100.ê´€ë¦¬ìž 0.ì¢…ë£Œ");
+			System.out.print("ë©”ë‰´ì„ íƒ : ");
 			String input = scan.next();
 
 			try {
@@ -39,11 +39,11 @@ public class Shop {
 		}
 	}
 
-	// ·Î±×ÀÎ½Ã
+	// ë¡œê·¸ì¸ì‹œ
 	private void loginMenu() {
 		boolean run = true;
 		while (true) {
-			System.out.println("1.¼îÇÎ 2.Àå¹Ù±¸´Ï¸ñ·Ï 3.µÚ·Î°¡±â");
+			System.out.println("1.ì‡¼í•‘ 2.ìž¥ë°”êµ¬ë‹ˆëª©ë¡ 3.ë’¤ë¡œê°€ê¸°");
 			String input = scan.next();
 			try {
 				int sel = Integer.parseInt(input);
@@ -59,49 +59,49 @@ public class Shop {
 		}
 	}
 
-	// ·Î±×ÀÎ-¼îÇÎ
+	// ë¡œê·¸ì¸-ì‡¼í•‘
 	private void shopMenu() {
 		boolean run = true;
 		while (run) {
 			im.printCategory();
-			System.out.print("Ä«Å×°í¸® ¹øÈ£ (Á¾·á:-1) : ");
+			System.out.print("ì¹´í…Œê³ ë¦¬ ë²ˆí˜¸ (ì¢…ë£Œ:-1) : ");
 			String input = scan.next();
 			int caIdx = Integer.parseInt(input) - 1;
 			if (caIdx == -2) {
 				break;
 			} else if (caIdx >= 0 && caIdx < im.category.size()) {
 				im.printItemList(caIdx);
-				System.out.print("¾ÆÀÌÅÛ ¹øÈ£ : ");
+				System.out.print("ì•„ì´í…œ ë²ˆí˜¸ : ");
 				input = scan.next();
 				int itemIdx = Integer.parseInt(input) - 1;
-				// °¢°¢ ¾ÆÀÌÅÛ¸®½ºÆ® Å©±â ±¸ÇÏ±â
+				// ê°ê° ì•„ì´í…œë¦¬ìŠ¤íŠ¸ í¬ê¸° êµ¬í•˜ê¸°
 				if (itemIdx >= 0 && itemIdx < im.itemListSize(caIdx)) {
 					im.addCart(um.userList.get(um.userLog).id, caIdx, itemIdx);
-					
+
 				} else {
-					System.out.println("¾ø´Â ¾ÆÀÌÅÛ ¹øÈ£ÀÔ´Ï´Ù.");
+					System.out.println("ì—†ëŠ” ì•„ì´í…œ ë²ˆí˜¸ìž…ë‹ˆë‹¤.");
 				}
-				// ¼îÇÎ ÈÄ Àå¹Ù±¸´Ï¿¡ ´ã±â
+				// ì‡¼í•‘ í›„ ìž¥ë°”êµ¬ë‹ˆì— ë‹´ê¸°
 			} else {
-				System.out.println("¾ø´Â Ä«Å×°í¸®ÀÔ´Ï´Ù.");
+				System.out.println("ì—†ëŠ” ì¹´í…Œê³ ë¦¬ìž…ë‹ˆë‹¤.");
 			}
 		}
 
 	}
 
-	// ·Î±×ÀÎ-Àå¹Ù±¸´Ï¸ñ·Ï
+	// ë¡œê·¸ì¸-ìž¥ë°”êµ¬ë‹ˆëª©ë¡
 	private void cartMenu() {
 		String id = um.getUser(um.userLog).id;
 		User getUser = new User(id);
 		im.printJang(getUser);
 	}
 
-	// °ü¸®ÀÚ ÀüÃ¼¸Þ´º
+	// ê´€ë¦¬ìž ì „ì²´ë©”ë‰´
 	private void managerMenu() {
 		boolean run = true;
 		while (run) {
-			System.out.println("[°ü¸® ½Ã½ºÅÛ]");
-			System.out.println("1.¾ÆÀÌÅÛ 2.Ä«Å×°í¸® 3.Àå¹Ù±¸´Ï 4.À¯Àú 0.µÚ·Î°¡±â");
+			System.out.println("[ê´€ë¦¬ ì‹œìŠ¤í…œ]");
+			System.out.println("1.ì•„ì´í…œ 2.ì¹´í…Œê³ ë¦¬ 3.ìž¥ë°”êµ¬ë‹ˆ 4.ìœ ì € 0.ë’¤ë¡œê°€ê¸°");
 			String input = scan.next();
 			int sel = Integer.parseInt(input);
 
@@ -120,15 +120,15 @@ public class Shop {
 
 	}
 
-	private void jangMenu() {
+	private void jangMenu() { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù±ï¿½ï¿½ï¿½ - ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½â³»ï¿½ï¿½
 		im.printJang();
 	}
 
-	// °ü¸®ÀÚ-¾ÆÀÌÅÛ
+	// ê´€ë¦¬ìž-ì•„ì´í…œ
 	private void itemMenu() {
 		boolean run = true;
 		while (run) {
-			System.out.println("1.ÀüÃ¼¾ÆÀÌÅÛ 2.¾ÆÀÌÅÛÃß°¡ 3.¾ÆÀÌÅÛ»èÁ¦ 0.µÚ·Î°¡±â");
+			System.out.println("1.ì „ì²´ì•„ì´í…œ 2.ì•„ì´í…œì¶”ê°€ 3.ì•„ì´í…œì‚­ì œ 0.ë’¤ë¡œê°€ê¸°");
 			String input = scan.next();
 			int sel = Integer.parseInt(input);
 			if (sel == 1) {
@@ -144,11 +144,11 @@ public class Shop {
 
 	}
 
-	// °ü¸®ÀÚ-Ä«Å×°í¸®
+	// ê´€ë¦¬ìž-ì¹´í…Œê³ ë¦¬
 	private void categoryMenu() {
 		boolean run = true;
 		while (run) {
-			System.out.println("1.ÀüÃ¼Ä«Å×°í¸® 2.Ä«Å×°í¸®Ãß°¡ 3.Ä«Å×°í¸®»èÁ¦ 0.µÚ·Î°¡±â");
+			System.out.println("1.ì „ì²´ì¹´í…Œê³ ë¦¬ 2.ì¹´í…Œê³ ë¦¬ì¶”ê°€ 3.ì¹´í…Œê³ ë¦¬ì‚­ì œ 0.ë’¤ë¡œê°€ê¸°");
 			String input = scan.next();
 			int sel = Integer.parseInt(input);
 			if (sel == 1) {
@@ -164,11 +164,11 @@ public class Shop {
 
 	}
 
-	// °ü¸®ÀÚ-À¯Àú
+	// ê´€ë¦¬ìž-ìœ ì €
 	private void userMenu() {
 		boolean run = true;
 		while (run) {
-			System.out.println("1.ÀüÃ¼À¯Àú 2.À¯ÀúÃß°¡ 3.À¯Àú»èÁ¦ 0.µÚ·Î°¡±â");
+			System.out.println("1.ì „ì²´ìœ ì € 2.ìœ ì €ì¶”ê°€ 3.ìœ ì €ì‚­ì œ 0.ë’¤ë¡œê°€ê¸°");
 			String input = scan.next();
 			int sel = Integer.parseInt(input);
 			if (sel == 1) {

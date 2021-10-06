@@ -10,37 +10,37 @@ import models.User;
 public class ItemManager {
 	Scanner scan = new Scanner(System.in);
 	public Vector<String> category = new Vector<>();
-	Vector<Item> itemList = new Vector<>(); // ÀüÃ¼¾ÆÀÌÅÛ¸®½ºÆ®
-	Vector<Cart> jangList = new Vector<>(); // ÀüÃ¼ Àå¹Ù±¸´Ï
+	Vector<Item> itemList = new Vector<>(); // ì „ì²´ì•„ì´í…œë¦¬ìŠ¤íŠ¸
+	Vector<Cart> jangList = new Vector<>(); // ì „ì²´ ì¥ë°”êµ¬ë‹ˆ
 
 	public ItemManager() {
 		init();
 	}
 
 	public void init() {
-		category.add("°úÀÚ");
-		category.add("»ı¼±");
-		category.add("À°·ù");
-		category.add("À½·á¼ö");
-		Item temp = new Item("»õ¿ì±ø", 1000, category.get(0));
+		category.add("ê³¼ì");
+		category.add("ìƒì„ ");
+		category.add("ìœ¡ë¥˜");
+		category.add("ìŒë£Œìˆ˜");
+		Item temp = new Item("ìƒˆìš°ê¹¡", 1000, category.get(0));
 		itemList.add(temp);
-		temp = new Item("Ä­Ãİ", 3600, category.get(0));
+		temp = new Item("ì¹¸ìµ¸", 3600, category.get(0));
 		itemList.add(temp);
-		temp = new Item("°íµî¾î", 2000, category.get(1));
+		temp = new Item("ê³ ë“±ì–´", 2000, category.get(1));
 		itemList.add(temp);
-		temp = new Item("»õ¿ì", 1800, category.get(1));
+		temp = new Item("ìƒˆìš°", 1800, category.get(1));
 		itemList.add(temp);
-		temp = new Item("¼Ò°í±â", 6500, category.get(2));
+		temp = new Item("ì†Œê³ ê¸°", 6500, category.get(2));
 		itemList.add(temp);
-		temp = new Item("´ß°¡½¿»ì", 5500, category.get(2));
+		temp = new Item("ë‹­ê°€ìŠ´ì‚´", 5500, category.get(2));
 		itemList.add(temp);
-		temp = new Item("Äİ¶ó", 500, category.get(3));
+		temp = new Item("ì½œë¼", 500, category.get(3));
 		itemList.add(temp);
-		temp = new Item("»çÀÌ´Ù", 700, category.get(3));
+		temp = new Item("ì‚¬ì´ë‹¤", 700, category.get(3));
 		itemList.add(temp);
 	}
 
-	// Àå¹Ù±¸´Ï¸®½ºÆ®
+	// ì¥ë°”êµ¬ë‹ˆë¦¬ìŠ¤íŠ¸
 	public void printJang() {
 		for (int i = 0; i < jangList.size(); i++) {
 			jangList.get(i).print();
@@ -55,7 +55,7 @@ public class ItemManager {
 		}
 	}
 
-	// Ä«Å×°í¸®µé
+	// ì¹´í…Œê³ ë¦¬ë“¤
 	public void printCategory() {
 		for (int i = 0; i < category.size(); i++) {
 			System.out.print((i + 1) + ") ");
@@ -63,7 +63,7 @@ public class ItemManager {
 		}
 	}
 
-	// ¾ÆÀÌÅÛ¸®½ºÆ®
+	// ì•„ì´í…œë¦¬ìŠ¤íŠ¸
 	public void printItemList() {
 		for (int i = 0; i < itemList.size(); i++) {
 			System.out.print((i + 1) + ") ");
@@ -86,18 +86,20 @@ public class ItemManager {
 		return itemList.get(index).category.length();
 	}
 
-	// Àå¹Ù±¸´Ï¿¡ ¼îÇÎ¾ÆÀÌÅÛ Ãß°¡
+	// ì¥ë°”êµ¬ë‹ˆì— ì‡¼í•‘ì•„ì´í…œ ì¶”ê°€
 	public void addCart(String userId, int categoryId, int itemId) {
 		int n = 0;
 		Cart temp = new Cart();
 		temp.userId = userId;
 		temp.cnt = 1;
+		int check = -1;
 		for (int i = 0; i < itemList.size(); i++) {
 			if (category.get(categoryId).equals(itemList.get(i).category)) {
 				if (itemId == n) {
 					temp.itemName = itemList.get(i).name;
 					for (int j = 0; j < jangList.size(); j++) {
 						if (jangList.get(j).itemName.equals(temp.itemName)) {
+							check = j;
 							temp.cnt++;
 						}
 					}
@@ -106,40 +108,53 @@ public class ItemManager {
 				n++;
 			}
 		}
+		if (check==-1) {
+		} else {
+		}
 		jangList.add(temp);
 	}
 
 	public void addItem() {
-		System.out.print("Ãß°¡ÇÒ ¾ÆÀÌÅÛ : ");
+		System.out.print("ì¶”ê°€í•  ì•„ì´í…œ : ");
 		String name = scan.next();
-		System.out.print("¾ÆÀÌÅÛ °¡°İ: ");
-		int price = scan.nextInt();
-		printCategory();
-		System.out.print("Ä«Å×°í¸® ¼±ÅÃ(1~" + category.size() + ") : ");
-		int sel = scan.nextInt() - 1;
-		Item temp = new Item(name, price, category.get(sel));
-		itemList.add(temp);
+		boolean check = true;
+		for (int i = 0; i < itemList.size(); i++) {
+			if (itemList.get(i).name.equals(name)) {
+				check = false;
+			}
+		}
+		if (check) {
+			System.out.print("ì•„ì´í…œ ê°€ê²©: ");
+			int price = scan.nextInt();
+			printCategory();
+			System.out.print("ì¹´í…Œê³ ë¦¬ ì„ íƒ(1~" + category.size() + ") : ");
+			int sel = scan.nextInt() - 1;
+			Item temp = new Item(name, price, category.get(sel));
+			itemList.add(temp);
+		} else {
+			System.out.println("ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ì•„ì´í…œì…ë‹ˆë‹¤.");
+		}
 	}
 
 	public void removeItem() {
 		printItemList();
-		System.out.print("»èÁ¦ÇÒ ¾ÆÀÌÅÛ : ");
+		System.out.print("ì‚­ì œí•  ì•„ì´í…œ : ");
 		String name = scan.next();
 		boolean check = true;
 		for (int i = 0; i < itemList.size(); i++) {
 			if (itemList.get(i).name.equals(name)) {
 				check = false;
 				itemList.remove(i);
-				System.out.println("»èÁ¦¿Ï·á");
+				System.out.println("ì‚­ì œì™„ë£Œ");
 			}
 		}
 		if (check) {
-			System.out.println("Á¸ÀçÇÏÁö ¾Ê´Â ¾ÆÀÌÅÛÀÔ´Ï´Ù.");
+			System.out.println("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ì•„ì´í…œì…ë‹ˆë‹¤.");
 		}
 	}
 
 	public void addCategory() {
-		System.out.print("Ãß°¡ÇÒ Ä«Å×°í¸® : ");
+		System.out.print("ì¶”ê°€í•  ì¹´í…Œê³ ë¦¬ : ");
 		String name = scan.next();
 		boolean check = true;
 		for (int i = 0; i < category.size(); i++) {
@@ -148,7 +163,7 @@ public class ItemManager {
 			}
 		}
 		if (!check) {
-			System.out.println("ÀÌ¹Ì Á¸ÀçÇÏ´Â Ä«Å×°í¸®ÀÔ´Ï´Ù.");
+			System.out.println("ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ì¹´í…Œê³ ë¦¬ì…ë‹ˆë‹¤.");
 		} else {
 			category.add(name);
 		}
@@ -157,18 +172,18 @@ public class ItemManager {
 
 	public void removeCategory() {
 		printCategory();
-		System.out.print("»èÁ¦ÇÒ Ä«Å×°í¸® : ");
+		System.out.print("ì‚­ì œí•  ì¹´í…Œê³ ë¦¬ : ");
 		String name = scan.next();
 		boolean check = true;
 		for (int i = 0; i < category.size(); i++) {
 			if (category.get(i).equals(name)) {
 				check = false;
 				category.remove(i);
-				System.out.println("»èÁ¦¿Ï·á");
+				System.out.println("ì‚­ì œì™„ë£Œ");
 			}
 		}
 		if (check) {
-			System.out.println("¾ø´Â Ä«Å×°í¸®ÀÔ´Ï´Ù.");
+			System.out.println("ì—†ëŠ” ì¹´í…Œê³ ë¦¬ì…ë‹ˆë‹¤.");
 		}
 
 	}
