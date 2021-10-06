@@ -15,10 +15,21 @@ class MainGame {
 			System.out.println("1.길드관리 2.상점 3.인벤토리 4.저장 5.로드 0.종료");
 			int sel = scan.nextInt();
 			if (sel == 1) {
+				player.guildMenu();
 			} else if (sel == 2) {
+				shop.shopMng();
 			} else if (sel == 3) {
+				player.inventoryMenu();
 			} else if (sel == 4) {
+				try {
+					fileData.save();
+				} catch (Exception e) {
+				}
 			} else if (sel == 5) {
+				try {
+					fileData.loadData();
+				} catch (Exception e) {
+				}
 			} else if (sel == 0) {
 				System.out.println("게임을 종료합니다.");
 				break;
