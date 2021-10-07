@@ -109,7 +109,7 @@ public class Shop {
 			} else if (sel == 2) {
 				categoryMenu();
 			} else if (sel == 3) {
-				jangMenu();
+				im.printJang();
 			} else if (sel == 4) {
 				userMenu();
 			} else if (sel == 0) {
@@ -119,9 +119,6 @@ public class Shop {
 
 	}
 
-	private void jangMenu() { // ������ ��ٱ��� - ��ü ���⳻��
-		im.printJang();
-	}
 
 	// 관리자-아이템
 	private void itemMenu() {

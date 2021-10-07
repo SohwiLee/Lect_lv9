@@ -17,6 +17,9 @@ public class ItemManager {
 
 	public ItemManager() {
 		init();
+		for (int i = 0; i < jangList.size(); i++) {
+
+		}
 	}
 
 	public void init() {
@@ -46,6 +49,7 @@ public class ItemManager {
 	public void printJang() {
 		for (int i = 0; i < jangList.size(); i++) {
 			jangList.get(i).print();
+			System.out.println(itemCount.get(i) + "개");
 		}
 	}
 
@@ -107,10 +111,13 @@ public class ItemManager {
 		}
 		for (int j = 0; j < jangList.size(); j++) {
 			// 아이템추가시 기존 장바구니 리스트에 든 것과 이름이 동일하면 하나만 출력!
-			if (jangList.get(j).itemName.equals(temp.itemName)) {
-				check = j;
-				cnt++;
-				itemCount.set(check, cnt);
+			if (jangList.get(j).userId.equals(userId)) {
+
+				if (jangList.get(j).itemName.equals(temp.itemName)) {
+					check = j;
+					cnt++;
+					itemCount.set(check, cnt);
+				}
 			}
 		}
 		if (check == -1) {
@@ -118,11 +125,6 @@ public class ItemManager {
 			cnt = 1;
 			itemCount.add(cnt);
 		}
-		System.out.println("GGGGG");
-		for (int i = 0; i < itemCount.size(); i++) {
-			System.out.println(itemCount.get(i));
-		}
-
 	}
 
 	public void addItem() {
