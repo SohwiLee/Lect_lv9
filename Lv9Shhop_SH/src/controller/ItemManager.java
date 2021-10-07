@@ -12,19 +12,12 @@ public class ItemManager {
 	public Vector<String> category = new Vector<>();
 	Vector<Item> itemList = new Vector<>(); // 전체아이템리스트
 	Vector<Cart> jangList = new Vector<>(); // 전체 장바구니
-	Vector<Cart> count = new Vector<>();
-	
-	
-	//setCount
-	public void seCount() {
-		
-	}
+	Vector<Integer> itemCount = new Vector<>(); // 전체 장바구니
+	int cnt = 1;
 
 	public ItemManager() {
 		init();
 	}
-	
-	
 
 	public void init() {
 		category.add("과자");
@@ -61,7 +54,7 @@ public class ItemManager {
 		for (int i = 0; i < jangList.size(); i++) {
 			if (u.id.equals(jangList.get(i).userId)) {
 				jangList.get(i).printPersonalCart();
-				System.out.println(count.get(i).cnt);
+				System.out.println(itemCount.get(i) + "개");
 			}
 		}
 	}
@@ -100,36 +93,34 @@ public class ItemManager {
 	// 장바구니에 쇼핑아이템 추가
 	public void addCart(String userId, int categoryId, int itemId) {
 		int n = 0;
+
 		Cart temp = new Cart();
-		System.out.print(":::");
-		for(int i=0;i<count.size();i++) {
-			System.out.println(count.get(i)+" ");
-		} 
-		System.out.println();
-		
 		temp.userId = userId;
+		int check = -1;
 		for (int i = 0; i < itemList.size(); i++) {
 			if (category.get(categoryId).equals(itemList.get(i).category)) {
 				if (itemId == n) {
 					temp.itemName = itemList.get(i).name;
-					for (int j = 0; j < jangList.size(); j++) {
-						if (jangList.get(j).itemName.equals(temp.itemName)) {
-							count.get(j).cnt++;
-						}
-					}
 				}
 				n++;
 			}
 		}
-		int check = -1;
-		for (int i = 0; i < jangList.size(); i++) {
-			if (jangList.get(i).itemName.equals(temp.itemName)) {
-				check = i;
+		for (int j = 0; j < jangList.size(); j++) {
+			// 아이템추가시 기존 장바구니 리스트에 든 것과 이름이 동일하면 하나만 출력!
+			if (jangList.get(j).itemName.equals(temp.itemName)) {
+				check = j;
+				cnt++;
+				itemCount.set(check, cnt);
 			}
 		}
-
 		if (check == -1) {
 			jangList.add(temp);
+			cnt = 1;
+			itemCount.add(cnt);
+		}
+		System.out.println("GGGGG");
+		for (int i = 0; i < itemCount.size(); i++) {
+			System.out.println(itemCount.get(i));
 		}
 
 	}
