@@ -37,7 +37,7 @@ public class ItemManager {
 		itemList.add(temp);
 		temp = new Item("소고기", 6500, category.get(2));
 		itemList.add(temp);
-		temp = new Item("닭가슴살", 5500, category.get(2));
+		temp = new Item("닭고기", 5500, category.get(2));
 		itemList.add(temp);
 		temp = new Item("콜라", 500, category.get(3));
 		itemList.add(temp);
@@ -47,10 +47,18 @@ public class ItemManager {
 
 	// 장바구니리스트
 	public void printJang() {
+		int total = 0;
 		for (int i = 0; i < jangList.size(); i++) {
 			jangList.get(i).print();
 			System.out.println(itemCount.get(i) + "개");
+			for (int j = 0; j < itemList.size(); j++) {
+				if (jangList.get(i).itemName.equals(itemList.get(j).name)) {
+					total += itemList.get(j).price * itemCount.get(i);
+				}
+			}
 		}
+		System.out.println("------------------------");
+		System.out.println("총 매출액 : " + total + "원");
 	}
 
 	// 개인 장바구니리스트
