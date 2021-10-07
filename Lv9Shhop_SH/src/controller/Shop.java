@@ -77,7 +77,6 @@ public class Shop {
 				// 각각 아이템리스트 크기 구하기
 				if (itemIdx >= 0 && itemIdx < im.itemListSize(caIdx)) {
 					im.addCart(um.userList.get(um.userLog).id, caIdx, itemIdx);
-
 				} else {
 					System.out.println("없는 아이템 번호입니다.");
 				}
