@@ -1,8 +1,9 @@
+package models;
 
 public class Unit {
-	String name;
-	int level; int hp; int maxHp; int att; int def; int exp;
-	boolean party; Item weapon; Item armor; Item ring;
+	public String name;
+	public int level; public int hp; public int maxHp; public int att; public int def; int exp;
+	public boolean party; Item weapon; Item armor; Item ring;
 	
 	public Unit(String n, int l, int h, int a, int d, int e) {
 		this.name = n; this.level = l; this.maxHp = h; this.att = a;
@@ -20,7 +21,7 @@ public class Unit {
 	}
 
 	// 개인의 상태창
-	public void printStatue() {
+	public void printStatus() {
 		// 기본정보
 		System.out.println("이름 : " + this.name);
 		System.out.println("레벨 : " + this.level);

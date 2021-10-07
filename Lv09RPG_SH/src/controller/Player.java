@@ -1,4 +1,10 @@
+package controller;
+
 import java.util.ArrayList;
+
+
+import models.Item;
+import models.Unit;
 
 public class Player {
 	static int money;

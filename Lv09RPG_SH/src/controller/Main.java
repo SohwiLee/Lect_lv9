@@ -1,5 +1,7 @@
+package controller;
 import java.util.Random;
 import java.util.Scanner;
+
 
 class MainGame {
 	static Scanner scan = new Scanner(System.in);
@@ -11,8 +13,8 @@ class MainGame {
 		FileData fileData = new FileData();
 
 		while (true) {
-			System.out.println("=============== [¸ŞÀÎ¸Ş´º] ================");
-			System.out.println("1.±æµå°ü¸® 2.»óÁ¡ 3.ÀÎº¥Åä¸® 4.ÀúÀå 5.·Îµå 0.Á¾·á");
+			System.out.println("=============== [ë©”ì¸ë©”ë‰´] ================");
+			System.out.println("1.ê¸¸ë“œê´€ë¦¬ 2.ìƒì  3.ì¸ë²¤í† ë¦¬ 4.ì €ì¥ 5.ë¡œë“œ 0.ì¢…ë£Œ");
 			int sel = scan.nextInt();
 			if (sel == 1) {
 				player.guildMenu();
@@ -31,7 +33,7 @@ class MainGame {
 				} catch (Exception e) {
 				}
 			} else if (sel == 0) {
-				System.out.println("°ÔÀÓÀ» Á¾·áÇÕ´Ï´Ù.");
+				System.out.println("ê²Œì„ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.");
 				break;
 			}
 		}
