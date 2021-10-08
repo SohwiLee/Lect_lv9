@@ -11,15 +11,15 @@ public class Guild {
 	Unit[] partyList;
 
 	public void setGuild() {
-		Unit temp = new Unit("호랑이", 1, 100, 10, 5, 0);
+		Unit temp = new Unit("호랑이", 2, 100, 10, 5, 0);
 		guildList.add(temp);
 		temp = new Unit("강아지", 1, 80, 7, 3, 0);
 		guildList.add(temp);
-		temp = new Unit("사슴", 1, 50, 3, 1, 0);
+		temp = new Unit("사슴", 3, 50, 3, 1, 0);
 		guildList.add(temp);
 		temp = new Unit("두더지", 1, 70, 5, 2, 0);
 		guildList.add(temp);
-		temp = new Unit("돼지", 1, 200, 4, 8, 0);
+		temp = new Unit("돼지", 2, 200, 4, 8, 0);
 		guildList.add(temp);
 		temp = new Unit("사자", 1, 120, 11, 7, 0);
 		guildList.add(temp);
@@ -27,7 +27,12 @@ public class Guild {
 		for (int i = 0; i < PARTY_SIZE; i++) {
 			guildList.get(i).party = true;
 		}
-		// 파티리스트
+		setPartyList();
+
+	}
+
+	// 파티리스트
+	public void setPartyList() {
 		partyList = new Unit[PARTY_SIZE];
 		int n = 0;
 		for (int i = 0; i < guildList.size(); i++) {
@@ -36,13 +41,12 @@ public class Guild {
 				n++;
 			}
 		}
-
 	}
 
 	public void guildMenu() {
 		while (true) {
 			System.out.println("=============== [길드관리] ================");
-			System.out.println("1.길드목록 2.길드추가 3.길드원삭제 4.파티원교체 5.정렬 0.뒤로가기");
+			System.out.println("1.길드목록 2.길드추가 3.길드원삭제 4.파티조회 5.파티원교체 6.정렬 0.뒤로가기");
 			int sel = MainGame.scan.nextInt();
 			if (sel == 1) {
 				printAllUnitStatus();
@@ -51,9 +55,12 @@ public class Guild {
 			} else if (sel == 3) {
 				removeUnit();
 			} else if (sel == 4) {
-				partyChange();
+				printParty();
 			} else if (sel == 5) {
-				sort();
+				partyChange();
+			} else if (sel == 6) {
+				sorts();
+				setPartyList();
 			} else if (sel == 0) {
 				break;
 			}
@@ -110,14 +117,13 @@ public class Guild {
 		Unit temp = new Unit(name, 1, hp, att, def, 0);
 
 		System.out.println("--------------------------");
-		System.out.println("[" + name + "]");
-		System.out.println("레벨:" + 1);
-		System.out.print("체력:" + hp);
-		System.out.println("/" + hp);
-		System.out.println("공격력:" + att);
-		System.out.println("방어력:" + def);
+		System.out.print("[" + name + "]");
+		System.out.print(", 레벨:" + 1);
+		System.out.print(", 체력:" + hp);
+		System.out.print("/" + hp);
+		System.out.print(", 공격력:" + att);
+		System.out.println(", 방어력:" + def);
 		System.out.println("길드원을 추가합니다.");
-		System.out.println("--------------------------");
 
 		try {
 			Thread.sleep(1000);
@@ -151,16 +157,17 @@ public class Guild {
 
 	public void printParty() {
 		System.out.println("----------[파티원]---------");
-		for (int i = 0; i < PARTY_SIZE; i++) {
-			System.out.println((i + 1) + ") " + partyList[i].name);
-			System.out.print("	레벨 : " + partyList[i].level);
+		int n = 0;
+		for (int i = 0; i < partyList.length; i++) {
+			System.out.print((n + 1) + ") " + partyList[i].name+":");
+			System.out.print(" 레벨 : " + partyList[i].level);
 			System.out.print(", 체력 : " + partyList[i].hp);
-			System.out.println("/" + partyList[i].maxHp);
-			System.out.print("	공격력 : " + partyList[i].att);
+			System.out.print("/" + partyList[i].maxHp);
+			System.out.print(", 공격력 : " + partyList[i].att);
 			System.out.print(", 방어력 : " + partyList[i].def);
-			System.out.println(", 파티 : " + guildList.get(i).party);
+			System.out.println(", 파티 : " + partyList[i].party);
+			n++;
 		}
-		System.out.println("--------------------------");
 	}
 
 	public void partyChange() {
@@ -193,12 +200,106 @@ public class Guild {
 		}
 	}
 
-	public void sort() {
-		Unit first = guildList.get(0);
-		for (int i = 0; i < guildList.size(); i++) {
-			for (int j = 0; j < i; j++) {
+	public void sorts() {
+		System.out.println("1.이름순 2.레벨순 3.hp순 4.공격력순 5.방어력순");
+		int sel = MainGame.scan.nextInt();
+		if (sel == 1) {
+			sortName();
+		} else if (sel == 2) {
+			sortLevel();
+		} else if (sel == 3) {
+			sortMaxHp();
+		} else if (sel == 4) {
+			sortAtt();
+		} else if (sel == 5) {
+			sortDef();
+		}
+		System.out.println("정렬 완료");
+		printAllUnitStatus();
 
+	}
+
+	// 좀 더 간단하게 만들 수 있을 것 같은데....
+	public void sortName() {
+		for (int i = 0; i < guildList.size(); i++) {
+			Unit first = guildList.get(i);
+			int idx = i;
+			for (int j = i; j < guildList.size(); j++) {
+				if (first.name.compareTo(guildList.get(j).name) > 0) {
+					first = guildList.get(j);
+					idx = j;
+				}
 			}
+
+			Unit temp = this.guildList.get(i);
+			this.guildList.set(i, guildList.get(idx));
+			this.guildList.set(idx, temp);
+		}
+	}
+
+	public void sortLevel() {
+		for (int i = 0; i < guildList.size(); i++) {
+			Unit first = guildList.get(i);
+			int idx = i;
+			for (int j = i; j < guildList.size(); j++) {
+				if (first.level > guildList.get(j).level) {
+					first = guildList.get(j);
+					idx = j;
+				} else if (first.level == guildList.get(j).level) {
+					System.out.println(i + ", " + j);
+				}
+			}
+			Unit temp = this.guildList.get(i);
+			this.guildList.set(i, guildList.get(idx));
+			this.guildList.set(idx, temp);
+		}
+	}
+
+	public void sortMaxHp() {
+		for (int i = 0; i < guildList.size(); i++) {
+			Unit first = guildList.get(i);
+			int idx = i;
+			for (int j = i; j < guildList.size(); j++) {
+				if (first.maxHp > guildList.get(j).maxHp) {
+					first = guildList.get(j);
+					idx = j;
+				}
+			}
+			Unit temp = this.guildList.get(i);
+			this.guildList.set(i, guildList.get(idx));
+			this.guildList.set(idx, temp);
+		}
+	}
+
+	public void sortAtt() {
+		for (int i = 0; i < guildList.size(); i++) {
+			Unit first = guildList.get(i);
+			int idx = i;
+			for (int j = i; j < guildList.size(); j++) {
+				if (first.att > guildList.get(j).att) {
+					first = guildList.get(j);
+					idx = j;
+				}
+			}
+			Unit temp = this.guildList.get(i);
+			this.guildList.set(i, guildList.get(idx));
+			this.guildList.set(idx, temp);
+		}
+	}
+
+	public void sortDef() {
+		for (int i = 0; i < guildList.size(); i++) {
+			Unit first = guildList.get(i);
+			int idx = i;
+			for (int j = i; j < guildList.size(); j++) {
+				if (first.def > guildList.get(j).def) {
+					first = guildList.get(j);
+					idx = j;
+				}
+			}
+			Unit temp = this.guildList.get(i);
+			this.guildList.set(i, guildList.get(idx));
+			this.guildList.set(idx, temp);
 		}
 	}
 

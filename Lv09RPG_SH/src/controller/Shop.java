@@ -14,7 +14,6 @@ public class Shop {
 		temp.power = 3;
 		temp.price = 1000;
 		itemList.add(temp);
-
 		temp = new Item();
 		temp.kind = Item.WEAPON;
 		temp.name = "철검";
@@ -74,11 +73,11 @@ public class Shop {
 				return;
 			while (true) {
 				if (sel == Item.WEAPON) {
-					System.out.println("------- [무기] -------");
+					System.out.println("----------[무기]-----------");
 				} else if (sel == Item.ARMOR) {
-					System.out.println("------- [방어구] -------");
+					System.out.println("---------[방어구]-----------");
 				} else if (sel == Item.RING) {
-					System.out.println("------- [장신구] -------");
+					System.out.println("---------[장신구]-----------");
 				}
 				printItems(sel);
 				System.out.println("내골드:" + Player.money + "G");
@@ -88,6 +87,7 @@ public class Shop {
 					break;
 				}
 				int count = 0;
+				System.out.println("--------------------------");
 				for (int i = 0; i < itemList.size(); i++) {
 					if (itemList.get(i).kind == sel) {
 						count++;
@@ -119,7 +119,7 @@ public class Shop {
 			System.out.print((count + 1) + ") ");
 			System.out.print(itemList.get(i).name);
 			System.out.print(" / 능력치:" + itemList.get(i).power);
-			System.out.print(" / 가격:" + itemList.get(i).price+"\n");
+			System.out.print(" / 가격:" + itemList.get(i).price + "\n");
 			count++;
 		}
 	}
