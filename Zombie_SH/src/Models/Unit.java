@@ -40,11 +40,11 @@ public abstract class Unit {
 	}
 	
 	public void attack(Unit target) {
-		int damage = (this.att - target.def)*(ran.nextInt(150)+50)+100;
+		int damage = (this.att - target.def)*(ran.nextInt(150)+50)/100;
 		if(damage <=0) {damage=-1;}
 		System.out.println(name+"의 공격!"+damage+"데미지!");
 		target.setHp(target.getHp() - damage);
-		System.out.println(target.name + "남은체력 : "+target.getHp());
+		System.out.println(target.name + " 남은체력 : "+target.getHp());
 	}
 	
 }
