@@ -57,9 +57,9 @@ public class Game {
 	private boolean fight(Unit enemy) {
 		while (true) {
 			p.print();
-			System.out.println("---- VS ----");
+			System.out.println("--------- VS ---------");
 			enemy.print();
-			System.out.println("============");
+			System.out.println("=================");
 			System.out.println("1.공격  2.물약(" + p.getCnt() + "개)");
 
 			int sel = scan.nextInt();
@@ -69,14 +69,18 @@ public class Game {
 			} else if (sel == 2) { // 물약
 				p.drink();
 			}
-			
-			if(die(enemy)!=0) {break;}
-			System.out.println("============//");
+
+			if (die(enemy) != 0) {
+				break;
+			}
+			System.out.println("==== " + enemy.getName() + " turn ====");
 			enemy.attack(p);
-			if(die(enemy)!=0) {break;}
-			System.out.println();			
+			if (die(enemy) != 0) {
+				break;
+			}
+			System.out.println();
 		}
-		if(die(enemy)==1) {
+		if (die(enemy) == 1) {
 			System.out.println("사망했다...");
 			System.out.println("GAME OVER");
 			return false;
@@ -85,11 +89,11 @@ public class Game {
 			return true;
 		}
 	}
-	
+
 	private void map(int a) {
-		System.out.println("현재 : "+p.getPos()+"층");
+		System.out.println("현재 : " + p.getPos() + "층");
 		System.out.println("1.올라간다.");
-		if(a==1) {
+		if (a == 1) {
 			System.out.println("2.체력회복 3.무기강화");
 		}
 	}
@@ -97,41 +101,43 @@ public class Game {
 	public void run() {
 		init();
 		int act = 1;
-		while(true) {
-			if(p.getPos() >=12) {
+		while (true) {
+			if (p.getPos() >= 12) {
 				System.out.println("생존에 성공!");
 				break;
 			}
-			
+
 			map(act);
 			int sel = scan.nextInt();
-			if(sel==1) {
-				p.setPos(p.getPos()+1);
+			if (sel == 1) {
+				p.setPos(p.getPos() + 1);
 				int check = chk();
-				if(check!=-1) { // fight
+				if (check != -1) { // fight
 					boolean a = fight(enemy.get(check));
-					if(a==false) {break;}
-				}else {
+					if (a == false) {
+						break;
+					}
+				} else {
 					System.out.println("아무일도 일어나지 않았다.");
 				}
 				act = 1;
-			}else if(sel==2 && act==1) {
-				int rNum = ran.nextInt(40)+20;
-				p.setHp(p.getHp()+rNum);
-				System.out.println("체력회복! ++"+rNum);
-				act=2;
-			}else if(sel==3 && act==1) {
-				int rNum = ran.nextInt(2)+1;
-				if(rNum==1) {
-					rNum = ran.nextInt(3)+1;
-					p.setAtt(p.getAtt()+rNum);
-					System.out.println("공격력 증가! ++"+rNum);
-				}else if(rNum==2) {
-					rNum = ran.nextInt(3)+1;
-					p.setDef(p.getDef()+rNum);					
-					System.out.println("공격력 증가! ++"+rNum);
+			} else if (sel == 2 && act == 1) {
+				int rNum = ran.nextInt(40) + 20;
+				p.setHp(p.getHp() + rNum);
+				System.out.println("체력회복! ++" + rNum);
+				act = 2;
+			} else if (sel == 3 && act == 1) {
+				int rNum = ran.nextInt(2) + 1;
+				if (rNum == 1) {
+					rNum = ran.nextInt(3) + 1;
+					p.setAtt(p.getAtt() + rNum);
+					System.out.println("공격력 증가! ++" + rNum);
+				} else if (rNum == 2) {
+					rNum = ran.nextInt(3) + 1;
+					p.setDef(p.getDef() + rNum);
+					System.out.println("공격력 증가! ++" + rNum);
 				}
-				act=2;
+				act = 2;
 			}
 		}
 	}
