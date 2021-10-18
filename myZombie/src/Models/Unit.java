@@ -1,52 +1,56 @@
 package Models;
 
-import Controller.Game;
+import java.util.Random;
 
-interface attack{
-	void attack(Unit target);
-}
-
-public class Unit implements attack{
+public abstract class Unit {
+	Random ran = new Random();
 	private String name;
-	private final int MAXHP;
 	private int hp;
+	private int max;	
 	private int att;
 	private int def;
 	private int pos;
 	
-	public Unit(String n, int h, int max, int a, int d, int p) {
-		this.name=n; this.hp=h; this.att=a; this.def=d; this.pos=p; this.MAXHP=max;
+	// 생성자
+	Unit(String name, int hp, int max, int att, int def, int pos){
+		this.name = name;
+		this.hp = hp;
+		this.max = max;
+		this.att = att;
+		this.def = def;
+		this.pos = pos;
 	}
 	
 	// getter setter
 	public String getName() {return this.name;}
-	
+		
 	public int getHp() {return this.hp;}
-	public void setHp(int h) {this.hp=h;}
-	
-	public int getMaxHp() {return this.MAXHP;}
-	
+	public void setHp(int hp) {this.hp = hp;}
+		
 	public int getAtt() {return this.att;}
-	public void setAtt(int a) {this.att=a;}
-	
+	public void setAtt(int att) {this.att = att;}
+		
 	public int getDef() {return this.def;}
-	public void setDef(int d) {this.def=d;}
-	
+	public void setDef(int def) {this.def = def;}
+		
 	public int getPos() {return this.pos;}
-	public void setPos(int p) {this.pos=p;}
-	
+	public void setPos(int pos) {this.pos = pos;}
+
 	public void print() {
-		System.out.println("<<"+this.name+">> - ["+this.hp+"/"+this.MAXHP+"]");
-		System.out.println("공격력["+this.att+"] 방어력[" +this.def+"]");
+		System.out.print("[이름] : "+name+"    [체력] : "+hp);
+		System.out.println(" [공격력] : "+att+"  [방어력] : "+def+"  [위치] : "+pos+"층");
 	}
-
-	@Override
+	
 	public void attack(Unit target) {
-		int damage = (this.att - target.def)*Game.ran.nextInt(150)+50/100;
-		System.out.println("Attack!! > -"+damage+"!!");
-		target.setHp(target.getHp()-damage);
-		System.out.println("HP:"+target.getHp()+"/"+target.MAXHP);
+		int damage = (this.att - target.def)*(ran.nextInt(150)+50)/100;
+		if(damage <=0) {damage=-1;}
+		System.out.println(name+"의 공격 >> "+damage+"데미지!");
+		target.setHp(target.getHp() - damage);
+		if(target.getHp()<=0) {			
+			System.out.println(target.name + " 남은체력 >> "+0);
+		}else {			
+			System.out.println(target.name + " 남은체력 : "+target.getHp());
+		}
 	}
-
-
+		
 }
