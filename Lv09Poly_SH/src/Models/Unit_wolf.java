@@ -2,7 +2,7 @@ package Models;
 
 public class Unit_wolf extends Unit{
 	
-	Unit_wolf(){
+	public Unit_wolf(){
 		name = "´Á´ë";
 	}
 	

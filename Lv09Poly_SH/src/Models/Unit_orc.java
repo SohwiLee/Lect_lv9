@@ -1,7 +1,7 @@
 package Models;
 
 public class Unit_orc extends Unit{
-	Unit_orc(){
+	public Unit_orc(){
 		name = "ø¿≈©";
 	}
 	

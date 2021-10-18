@@ -18,13 +18,28 @@ public class GameManager {
 
 	GameManager() {
 		stageList.put("Title", new StageTitle());
-//		stageList.put("Battle", new StageBattle());
+		stageList.put("Battle", new StageBattle());
 		stageList.put("Lobby", new StageLobby());
 		nextStage = "Title";
 	}
 
 	public boolean changeStage() {
-		return false;
+		if (curStage.equals(nextStage))
+			return true;
+		curStage = nextStage;
+		Stage stage = stageList.get(curStage);
+		stage.init();
+		boolean run = true;
+		while (true) {
+			run = stage.update();
+			if (run == false)
+				break;
+		}
+
+		if (nextStage.equals(""))
+			return false;
+		else
+			return true;
 	}
 
 }

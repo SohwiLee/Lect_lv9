@@ -5,7 +5,14 @@ public class Player extends Unit{
 		super(name, maxhp, power);
 	}
 	
-	void skill() {
+	public void skill() {
+		if(super.name.equals("전사")) {
+			System.out.println("전사스킬");
+		} else if(super.name.equals("마법사")) {
+			System.out.println("마법사스킬");
+		} else if(super.name.equals("힐러")) {
+			System.out.println("힐러스킬");			
+		}
 		
 	}
 }

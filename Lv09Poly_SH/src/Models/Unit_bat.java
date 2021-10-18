@@ -1,7 +1,7 @@
 package Models;
 
 public class Unit_bat extends Unit{
-	Unit_bat(){
+	public Unit_bat(){
 		name = "¹ÚÁã";
 	}
 	
