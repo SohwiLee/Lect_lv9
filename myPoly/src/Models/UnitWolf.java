@@ -1,5 +1,10 @@
 package Models;
 
-public class UnitWolf {
+public class UnitWolf extends Unit{
+	UnitWolf(){
+		name = "´Á´ë";
+	}
+	
+	void skill() {}
 
 }

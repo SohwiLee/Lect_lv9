@@ -1,5 +1,9 @@
 package Models;
 
-public class UnitBat {
-
+public class UnitBat extends Unit{
+	UnitBat(){
+		name = "¹ÚÁã";
+	}
+	
+	void skill() {}
 }

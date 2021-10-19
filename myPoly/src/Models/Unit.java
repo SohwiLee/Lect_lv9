@@ -10,7 +10,7 @@ public abstract class Unit {
 	Unit() {
 	}
 
-	Unit(String name, int max, int pow) {
+	protected Unit(String name, int max, int pow) {
 		this.name = name;
 		this.maxhp = max;
 		this.curhp = max;
