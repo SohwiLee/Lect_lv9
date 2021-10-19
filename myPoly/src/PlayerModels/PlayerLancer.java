@@ -1,10 +1,15 @@
 package PlayerModels;
 
-public class PlayerLancer extends Player  {
+import Models.Unit;
+
+public class PlayerLancer extends Unit {
 
 	PlayerLancer(String name, int max, int pow) {
 		super(name, max, pow);
-		// TODO Auto-generated constructor stub
+		name = "창술사";
 	}
-	void Skill() {}
+
+	void skill() {
+		System.out.println("올려찌르기 - 상대방 강타, 1.8배 데미지 부여");
+	}
 }

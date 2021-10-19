@@ -1,11 +1,16 @@
 package PlayerModels;
 
-public class PlayerWizard extends Player  {
+import Models.Unit;
+
+public class PlayerWizard extends Unit {
 
 	PlayerWizard(String name, int max, int pow) {
 		super(name, max, pow);
-		// TODO Auto-generated constructor stub
+		name = "마법사";
 	}
-	void Skill() {}
+
+	void Skill() {
+		System.out.println("[메테오] - 적 전체공격, 1.2배의 데미지 부여");
+	}
 
 }
