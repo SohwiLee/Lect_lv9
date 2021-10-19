@@ -34,8 +34,16 @@ public class Unit {
 		target.curhp -= power;
 		System.out.println(name+" >> "+ target.name +" 공격! >> "+ power+"의 데미지를 입혔다!");
 		if(target.curhp<=0) {
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+			}
 			System.out.println(target.name+ " 처치 완료!");
 			target.curhp=0;
+		}
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {
 		}
 	}
 	

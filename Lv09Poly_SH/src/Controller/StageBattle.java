@@ -28,12 +28,12 @@ public class StageBattle extends Stage {
 	}
 
 	void printCharacter() {
-		System.out.println("<< Battle >>");
-		System.out.println("<< Player >>");
+		System.out.println("<<=== Battle ===>>");
+		System.out.println(">> [Player] ");
 		for (int i = 0; i < playerList.size(); i++) {
 			playerList.get(i).printData();
 		}
-		System.out.println("<< Monster >>");
+		System.out.println(">> [Monster]");
 		for (int i = 0; i < monsterList.size(); i++) {
 			monsterList.get(i).printData();
 		}
@@ -41,8 +41,9 @@ public class StageBattle extends Stage {
 
 	void playerAttack(int index) {
 		Player p = playerList.get(index);
-		if (p.curhp <= 0) return;
-		System.out.println("<< 메뉴선택 >>");
+		if (p.curhp <= 0)
+			return;
+		System.out.println("<<=== 메뉴선택 ===>>");
 		System.out.println("[" + p.name + "]" + "1.어택 2.스킬");
 		int sel = GameManager.scan.nextInt();
 		if (sel == 1) {
@@ -50,44 +51,58 @@ public class StageBattle extends Stage {
 				int idx = ran.nextInt(monsterList.size()); // 랜덤으로 몬스터 공격
 				if (monsterList.get(idx).curhp > 0) {
 					p.attack(monsterList.get(idx));
+					break;
 				}
 			}
 		} else if (sel == 2) {
-			int idx = ran.nextInt(monsterList.size()); // 랜덤으로 몬스터 공격
-			if (monsterList.get(idx).curhp > 0) {
-				p.skill();
+			while (true) {
+				int idx = ran.nextInt(monsterList.size()); // 랜덤으로 몬스터 공격
+				if (monsterList.get(idx).curhp > 0) {
+					if (p.name.equals("전사")) {
+						p.skill(monsterList.get(idx));
+					} else if (p.name.equals("마법사")) {
+						for (int i = 0; i < monsterList.size(); i++) {
+							p.skill(monsterList.get(i));
+						}
+					} else if (p.name.equals("힐러")){
+						idx = ran.nextInt(playerList.size()); 
+						p.skill(playerList.get(idx));
+					}
+					break;
+				}
 			}
 		}
 	}
 
 	void monsterAttack(int index) {
 		Unit m = monsterList.get(index);
-		if(m.curhp<=0) return;
-		while(true) {
+		if (m.curhp <= 0)
+			return;
+		while (true) {
 			int idx = ran.nextInt(playerList.size());
-			if(playerList.get(idx).curhp>0) {
+			if (playerList.get(idx).curhp > 0) {
 				m.attack(playerList.get(idx));
 				break;
 			}
 		}
 	}
-	
+
 	void checkLive() {
 		int num = 0; // 죽은인원수
-		for(int i=0;i<playerList.size();i++) {
-			if(playerList.get(i).curhp<=0) {
+		for (int i = 0; i < playerList.size(); i++) {
+			if (playerList.get(i).curhp <= 0) {
 				num++;
 			}
 		}
-		playerDead = playerList.size()-num;
-		
-		num=0;
-		for(int i=0;i<monsterList.size();i++) {
-			if(monsterList.get(i).curhp<=0) {
+		playerDead = playerList.size() - num;
+
+		num = 0;
+		for (int i = 0; i < monsterList.size(); i++) {
+			if (monsterList.get(i).curhp <= 0) {
 				num++;
 			}
 		}
-		monDead = monsterList.size()-num;
+		monDead = monsterList.size() - num;
 	}
 
 	@Override
@@ -96,28 +111,30 @@ public class StageBattle extends Stage {
 		int p_index = 0;
 		int m_index = 0;
 		boolean turn = true;
-		
-		while(run) {
-			if(turn) {
+
+		while (run) {
+			if (turn) {
 				printCharacter();
-				if(p_index<playerList.size()) {
+				if (p_index < playerList.size()) {
 					playerAttack(p_index);
 					p_index++;
-				}else {
-					turn= !turn;
+				} else {
+					turn = !turn;
 					p_index = 0;
 				}
-			}else if(!turn) {
-				if(m_index<monsterList.size()) {
+			} else if (!turn) {
+				if (m_index < monsterList.size()) {
 					monsterAttack(m_index);
 					m_index++;
-				}else {
+				} else {
 					turn = !turn;
 					m_index = 0;
 				}
 			}
 			checkLive();
-			if(monDead<=0 || playerDead<=0) {break;}
+			if (monDead <= 0 || playerDead <= 0) {
+				break;
+			}
 		}
 		GameManager.nextStage = "Lobby";
 		return false;
