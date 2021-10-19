@@ -11,7 +11,7 @@ public class Hero extends Unit {
 	public int getCnt() {
 		return cnt;
 	}
-
+	
 	public void drink() {
 		if (cnt > 0) {
 			System.out.println("체력이 100 회복되었습니다.");
