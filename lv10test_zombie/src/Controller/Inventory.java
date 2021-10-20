@@ -7,9 +7,8 @@ import Models.Item;
 public class Inventory {
 
 	ArrayList<Item> itemList = new ArrayList<>();
-
-	void itemSetting() {
-	}
+	ArrayList<Item> potionAlign = new ArrayList<>();
+	ArrayList<Item> armsAlign = new ArrayList<>();
 
 	void printMenu() {
 		while (true) {
@@ -25,25 +24,32 @@ public class Inventory {
 			} else {
 				System.out.println("Wrong Number!");
 			}
+
 		}
 	}
 
-	void selectPotion() {
+	public void selectPotion() {
 		while (true) {
 			potionList();
 			System.out.println("포션선택(0.뒤로가기):");
 			int sel = Game.scan.nextInt();
 			if (sel == 0) {
 				break;
-			}
-			for (int i = 0; i < itemList.size(); i++) {
-				if (itemList.get(i).getCode()==1 && itemList.get(i) == itemList.get(sel)) {
-					Game.pl.setHp(Game.pl.getHp() + itemList.get(sel).getPow());
-					System.out.println(itemList.get(sel).getPow() + "의 체력을 회복했다!");
+			} else if (sel > potionAlign.size()) {
+				System.out.println("Wrong Number");
+				continue;
+			} else {
+				sel -= 1;
+				System.out.println(potionAlign.get(sel).getPow() + "의 체력 회복!");
+				Game.pl.setHp(Game.pl.getHp() + potionAlign.get(sel).getPow());
+				for (int i = 0; i < itemList.size(); i++) {
+					if (itemList.get(i) == potionAlign.get(sel)) {
+						itemList.remove(i);
+						Game.pl.setPoCnt(Game.pl.getPoCnt() - 1);
+					}
 				}
+				potionAlign.remove(sel);
 			}
-			itemList.remove(sel);
-			Game.pl.setPoCnt(Game.pl.getPoCnt()-1);
 		}
 
 	}
@@ -55,40 +61,50 @@ public class Inventory {
 			int sel = Game.scan.nextInt();
 			if (sel == 0) {
 				break;
-			}
-			for (int i = 0; i < itemList.size(); i++) {
-				if (itemList.get(i) == itemList.get(sel)) {
-					if (itemList.get(i).getCode()!=1 &&itemList.get(sel).getCode() == 2) {
-						Game.pl.setAtt(Game.pl.getAtt() + itemList.get(sel).getPow());
-						System.out.println("무기강화! +" + itemList.get(sel).getPow());
-					} else if (itemList.get(i).getCode()!=1 && itemList.get(sel).getCode() == 3) {
-						Game.pl.setDef(Game.pl.getDef() + itemList.get(sel).getPow());
-						System.out.println("방어강화! +" + itemList.get(sel).getPow());
+			} else if (sel > armsAlign.size()) {
+				System.out.println("Wrong Number");
+				continue;
+			} else {
+				sel -= 1;
+				if (armsAlign.get(sel).getCode() == 2) {
+					System.out.println(armsAlign.get(sel).getPow() + "만큼 무기강화!");
+					Game.pl.setAtt(Game.pl.getAtt() + armsAlign.get(sel).getPow());
+				} else if (armsAlign.get(sel).getCode() == 3) {
+					Game.pl.setAtt(Game.pl.getDef() + armsAlign.get(sel).getPow());
+					System.out.println(armsAlign.get(sel).getPow() + "만큼 방어강화!");
+				}
+				for (int i = 0; i < itemList.size(); i++) {
+					if (itemList.get(i) == armsAlign.get(sel)) {
+						itemList.remove(i);
+						Game.pl.setPoCnt(Game.pl.getPoCnt() - 1);
 					}
 				}
+				armsAlign.remove(sel);
 			}
-			itemList.remove(sel);
-			Game.pl.setArmCnt(Game.pl.getArmCnt()-1);
 		}
 	}
 
 	void potionList() {
-		int count = 1;
+		potionAlign.clear();
 		for (int i = 0; i < itemList.size(); i++) {
 			if (itemList.get(i).getCode() == 1) {
-				System.out.println(count + ")" + itemList.get(i).getName() + "(" + itemList.get(i).getPow() + ")");
-				count++;
+				potionAlign.add(itemList.get(i));
 			}
+		}
+		for (int i = 0; i < potionAlign.size(); i++) {
+			System.out.println((i + 1) + ")" + potionAlign.get(i).getName() + "(" + potionAlign.get(i).getPow() + ")");
 		}
 	}
 
 	void armList() {
-		int count = 1;
+		armsAlign.clear();
 		for (int i = 0; i < itemList.size(); i++) {
 			if (itemList.get(i).getCode() != 1) {
-				System.out.println(count + ")" + itemList.get(i).getName() + "(" + itemList.get(i).getPow() + ")");
-				count++;
+				armsAlign.add(itemList.get(i));
 			}
+		}
+		for (int i = 0; i < armsAlign.size(); i++) {
+			System.out.println((i + 1) + ")" + armsAlign.get(i).getName() + "(" + armsAlign.get(i).getPow() + ")");
 		}
 	}
 

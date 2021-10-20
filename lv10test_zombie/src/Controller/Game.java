@@ -46,15 +46,16 @@ public class Game {
 
 	void printMenu(int act) {
 		System.out.println("[ " + pl.getPos() + "층 ]");
+		System.out.println("1.올라간다");
 		if (act == 1) {
-			System.out.println("1.올라간다 2.인벤토리 사용");
+			System.out.println("2.인벤토리 사용");
 		}
 	}
 
 	int chkZombie() {
 		for (int i = 0; i < enemy.size(); i++) {
 			if (enemy.get(i).getPos() == pl.getPos()) {
-				System.out.print("적 출현! ");
+				System.out.println("적 출현! ");
 				return i;
 			}
 		}
@@ -80,16 +81,16 @@ public class Game {
 
 	boolean fight(Unit enemy) {
 		while (true) {
-			System.out.println("FIGHT!!");
+			System.out.println("     >> FIGHT <<");
 			pl.printInfo();
 			System.out.println("- - - - - - VS - - - - - -");
 			enemy.printInfo();
-			System.out.println("1.공격 2.인벤토리");
+			System.out.println("1.공격 2.체력회복(" + pl.getPoCnt() + "개)");
 			int sel = scan.nextInt();
 			if (sel == 1) {
 				pl.attack(enemy);
 			} else if (sel == 2) {
-				inven.printMenu();
+				inven.selectPotion();
 			}
 			// 적이 죽지 않는한 계속되는 싸움
 			if (die(enemy) != 0) {
@@ -130,8 +131,13 @@ public class Game {
 		floorSetting();
 		int act = 1;
 		while (true) {
+			if (pl.getPos() >= 20) {
+				System.out.println("좀비왕을 물리치고 탑을 정복했다!!");
+				break;
+			}
 			printMenu(act);
 			int sel = scan.nextInt();
+			System.out.println("========================");
 			if (sel == 1) {
 				pl.setPos(pl.getPos() + 1);
 				// 좀비,아이템 있는지 확인
@@ -139,10 +145,10 @@ public class Game {
 				int check2 = chkItem();
 				if (check1 != -1) {
 					// fight
-					if(!fight(enemy.get(check1))) {
+					if (!fight(enemy.get(check1))) {
 						break;
 					}
-					check1=-1;					
+					check1 = -1;
 				} else if (check2 != -1) {
 					inven.itemList.add(new Item(treasure.get(check2).getCode(), treasure.get(check2).getName(),
 							treasure.get(check2).getPow()));
@@ -158,7 +164,7 @@ public class Game {
 				act = 1;
 			} else if (sel == 2 && act == 1) {
 				inven.printMenu();
-				act=2;
+				act = 2;
 			} else {
 				System.out.println("Wrong Number!");
 			}
@@ -167,6 +173,7 @@ public class Game {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
+			System.out.println("========================");
 		}
 	}
 }

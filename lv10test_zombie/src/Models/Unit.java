@@ -44,7 +44,7 @@ public abstract class Unit {
 		target.setHp(target.getHp() - damage);
 		if (target.getHp() <= 0) {
 			System.out.println(target.name + " 남은체력::" + 0);
-			System.out.println(target.name + "가(이) 쓰러졌다!");
+			System.out.println("System : "+target.name + "가(이) 쓰러졌다");
 		} else {
 			System.out.println(target.name + " 남은체력::" + target.getHp());
 		}
@@ -52,6 +52,7 @@ public abstract class Unit {
 			Thread.sleep(500);
 		} catch (Exception e) {
 			// TODO: handle exception
+			
 		}
 	}
 
