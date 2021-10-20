@@ -1,11 +1,9 @@
 package PlayerModels;
 
-import Models.Unit;
+public class PlayerHealer extends Player {
 
-public class PlayerHealer extends Unit {
-
-	PlayerHealer(String name, int max, int pow) {
-		super(name, max, pow);
+	PlayerHealer(String name, int max, int pow, String state) {
+		super(name, max, pow, state);
 		name="Èú·¯";
 	}
 	

@@ -1,10 +1,10 @@
-package MobModel;
+package MobModels;
 
 import Models.Unit;
 
 public class UnitBat extends Unit { // state√ﬂ∞°?
-	UnitBat(String name, int max, int pow) {
-		super(name, max, pow);
+	UnitBat(String name, int max, int pow, String state) {
+		super(name, max, pow, state);
 		name = "π⁄¡„";
 	}
 

@@ -1,11 +1,9 @@
 package PlayerModels;
 
-import Models.Unit;
+public class PlayerWizard extends Player {
 
-public class PlayerWizard extends Unit {
-
-	PlayerWizard(String name, int max, int pow) {
-		super(name, max, pow);
+	PlayerWizard(String name, int max, int pow, String state) {
+		super(name, max, pow, state);
 		name = "¸¶¹ý»ç";
 	}
 

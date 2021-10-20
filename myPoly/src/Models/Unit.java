@@ -13,30 +13,32 @@ public abstract class Unit {
 
 	Unit() {
 	}
-
-	protected Unit(String name, int max, int pow) {
+	protected Unit(String name, int max, int pow, String state) {
 		this.name = name;
 		this.maxhp = max;
 		this.curhp = max;
 		this.power = pow;
+		this.state = state;
 	}
 
-	void init(int max, int pow) {
+	public void init(int max, int pow) {
 		this.maxhp = max;
 		this.curhp = max;
 		this.power = pow;
 	}
-
-	void init(String name, int max, int pow) {
-		this.name = name;
-		this.maxhp = max;
-		this.curhp = max;
-		this.power = pow;
-	}
+	
+//	void init(String name, int max, int pow) {
+//		this.name = name;
+//		this.maxhp = max;
+//		this.curhp = max;
+//		this.power = pow;
+//	}
 
 	void printData() {
 		System.out.println("[" + this.name + "] " + this.curhp + "/" + this.maxhp + " pow:" + this.power);
 	}
+
+	
 
 }
 
