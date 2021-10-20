@@ -7,7 +7,6 @@ import Models.Item;
 public class Inventory {
 
 	ArrayList<Item> itemList = new ArrayList<>();
-	int cnt;
 
 	void itemSetting() {
 	}
@@ -37,11 +36,14 @@ public class Inventory {
 			if (sel == 0) {
 				break;
 			}
-			if (cnt == sel) {
-				Game.pl.setHp(Game.pl.getHp() + itemList.get(sel).getPow());
-				System.out.println(itemList.get(sel).getPow() + "의 체력을 회복했다!");
-				itemList.remove(sel);
+			for (int i = 0; i < itemList.size(); i++) {
+				if (itemList.get(i).getCode()==1 && itemList.get(i) == itemList.get(sel)) {
+					Game.pl.setHp(Game.pl.getHp() + itemList.get(sel).getPow());
+					System.out.println(itemList.get(sel).getPow() + "의 체력을 회복했다!");
+				}
 			}
+			itemList.remove(sel);
+			Game.pl.setPoCnt(Game.pl.getPoCnt()-1);
 		}
 
 	}
@@ -54,37 +56,40 @@ public class Inventory {
 			if (sel == 0) {
 				break;
 			}
-			if (cnt == sel) {
-				if (itemList.get(sel).getCode() == 2) {
-					Game.pl.setAtt(Game.pl.getAtt() + itemList.get(sel).getPow());
-					System.out.println("무기강화! +" + itemList.get(sel).getPow());
-				} else if (itemList.get(sel).getCode() == 3) {
-					Game.pl.setDef(Game.pl.getDef() + itemList.get(sel).getPow());
-					System.out.println("방어강화! +" + itemList.get(sel).getPow());
+			for (int i = 0; i < itemList.size(); i++) {
+				if (itemList.get(i) == itemList.get(sel)) {
+					if (itemList.get(i).getCode()!=1 &&itemList.get(sel).getCode() == 2) {
+						Game.pl.setAtt(Game.pl.getAtt() + itemList.get(sel).getPow());
+						System.out.println("무기강화! +" + itemList.get(sel).getPow());
+					} else if (itemList.get(i).getCode()!=1 && itemList.get(sel).getCode() == 3) {
+						Game.pl.setDef(Game.pl.getDef() + itemList.get(sel).getPow());
+						System.out.println("방어강화! +" + itemList.get(sel).getPow());
+					}
 				}
-				itemList.remove(sel);
 			}
+			itemList.remove(sel);
+			Game.pl.setArmCnt(Game.pl.getArmCnt()-1);
 		}
 	}
 
 	void potionList() {
-		cnt = 1;
+		int count = 1;
 		for (int i = 0; i < itemList.size(); i++) {
 			if (itemList.get(i).getCode() == 1) {
-				System.out.println(cnt + ")" + itemList.get(i).getName() + "(" + itemList.get(i).getPow() + ")");
-				cnt++;
+				System.out.println(count + ")" + itemList.get(i).getName() + "(" + itemList.get(i).getPow() + ")");
+				count++;
 			}
 		}
-	};
+	}
 
 	void armList() {
-		cnt = 1;
+		int count = 1;
 		for (int i = 0; i < itemList.size(); i++) {
 			if (itemList.get(i).getCode() != 1) {
-				System.out.println(cnt + ")" + itemList.get(i).getName() + "(" + itemList.get(i).getPow() + ")");
-				cnt++;
+				System.out.println(count + ")" + itemList.get(i).getName() + "(" + itemList.get(i).getPow() + ")");
+				count++;
 			}
 		}
-	};
+	}
 
 }

@@ -14,8 +14,13 @@ public class Game {
 	public static Scanner scan = new Scanner(System.in);
 
 	private static Game instance = new Game();
-	private Game() {}
-	public static Game getInstance() {return instance;}
+
+	private Game() {
+	}
+
+	public static Game getInstance() {
+		return instance;
+	}
 
 	ArrayList<Unit> enemy = new ArrayList<>();
 	ArrayList<Item> treasure = new ArrayList<>();
@@ -49,7 +54,7 @@ public class Game {
 	int chkZombie() {
 		for (int i = 0; i < enemy.size(); i++) {
 			if (enemy.get(i).getPos() == pl.getPos()) {
-				System.out.println("적 출현!");
+				System.out.print("적 출현! ");
 				return i;
 			}
 		}
@@ -61,11 +66,11 @@ public class Game {
 			if (treasure.get(i).getPos() == pl.getPos()) {
 				System.out.println("보물상자를 발견했다!");
 				if (treasure.get(i).getCode() == 1) {
-					System.out.println("포션("+treasure.get(i).getPow()+") get!");
+					System.out.println("포션(" + treasure.get(i).getPow() + ") get!");
 				} else if (treasure.get(i).getCode() == 2) {
-					System.out.println("무기강화약("+treasure.get(i).getPow()+") get!");
+					System.out.println("무기강화약(" + treasure.get(i).getPow() + ") get!");
 				} else if (treasure.get(i).getCode() == 3) {
-					System.out.println("방어강화약("+treasure.get(i).getPow()+") get!");
+					System.out.println("방어강화약(" + treasure.get(i).getPow() + ") get!");
 				}
 				return i;
 			}
@@ -73,8 +78,48 @@ public class Game {
 		return -1;
 	}
 
-	boolean fight() {
-		return false;
+	boolean fight(Unit enemy) {
+		while (true) {
+			System.out.println("FIGHT!!");
+			pl.printInfo();
+			System.out.println("- - - - - - VS - - - - - -");
+			enemy.printInfo();
+			System.out.println("1.공격 2.인벤토리");
+			int sel = scan.nextInt();
+			if (sel == 1) {
+				pl.attack(enemy);
+			} else if (sel == 2) {
+				inven.printMenu();
+			}
+			// 적이 죽지 않는한 계속되는 싸움
+			if (die(enemy) != 0) {
+				break;
+			}
+			// enemy turn
+			enemy.attack(pl);
+			if (die(pl) != 0) {
+				break;
+			}
+		}
+		if (die(enemy) == 1) {
+			System.out.println("Game Over....");
+			return false;
+		} else {
+			System.out.println("Player 승리!!");
+			return true;
+		}
+
+	}
+
+	int die(Unit unit) {
+		if (pl.getHp() <= 0) {
+			return 1;
+		} else if (unit.getHp() <= 0) {
+			return 2;
+		} else {
+			return 0;
+		}
+
 	}
 
 	int retire(Unit unit) {
@@ -94,15 +139,26 @@ public class Game {
 				int check2 = chkItem();
 				if (check1 != -1) {
 					// fight
+					if(!fight(enemy.get(check1))) {
+						break;
+					}
+					check1=-1;					
 				} else if (check2 != -1) {
 					inven.itemList.add(new Item(treasure.get(check2).getCode(), treasure.get(check2).getName(),
 							treasure.get(check2).getPow()));
+					if (treasure.get(check2).getCode() == 1) {
+						pl.setPoCnt(pl.getPoCnt() + 1);
+					} else {
+						pl.setArmCnt(pl.getArmCnt() + 1);
+					}
+
 				} else if (check1 == -1 && check2 == -1) {
 					System.out.println("여긴 아무것도 없다.");
 				}
 				act = 1;
-			} else if (sel == 2 && act==1) {
+			} else if (sel == 2 && act == 1) {
 				inven.printMenu();
+				act=2;
 			} else {
 				System.out.println("Wrong Number!");
 			}
