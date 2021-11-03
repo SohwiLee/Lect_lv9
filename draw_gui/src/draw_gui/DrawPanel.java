@@ -27,7 +27,8 @@ public class DrawPanel extends MyUtil {
 	int width;
 	int height;
 	Square rect = new Square(x, y, width, height);
-	JButton close = new JButton();
+
+	private JButton close = new JButton("close");
 
 	public DrawPanel() {
 		setBounds(0, 0, 900, 700);
@@ -45,12 +46,17 @@ public class DrawPanel extends MyUtil {
 	private void setBtn() {
 		setLayout(null);
 		this.close.setBounds(700, 500, 80, 80);
-		this.close.setText("Close");
 		this.close.setBackground(Color.white);
-		this.close.setHorizontalAlignment(JLabel.CENTER);
 		this.close.addActionListener(this);
 		add(this.close);
+	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		x = 0;
+		y = 0;
+		width = 0;
+		height = 0;
 	}
 
 	@Override
@@ -69,17 +75,7 @@ public class DrawPanel extends MyUtil {
 //		System.out.println(e.getX() + "," + e.getY());
 		width = e.getX() - x;
 		height = e.getY() - y;
-		System.out.println(width+", "+height);
-	}
-	
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
+//		System.out.println(width + ", " + height);
 	}
 
 	// keyPress → shift 누르고 + 드래그 → 정사각
@@ -87,27 +83,20 @@ public class DrawPanel extends MyUtil {
 	public void keyPressed(KeyEvent e) {
 //		System.out.println(e.getKeyChar());
 		if (e.isShiftDown() == true) {
-			height=width;
-//			if(width>=height) {
-//				width=height;
-//			}else if(width<=height) {
-//				height=width;
-//			}
+			if (width != height && width > height) {
+				height = width;
+			} else if (width != height && width < height) {
+				width = height;
+			}
 		}
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		x=0;y=0;width=0;height=0;
-		
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		g.drawRect(x, y, width, height);
-		
+
 		repaint();
 	}
 
