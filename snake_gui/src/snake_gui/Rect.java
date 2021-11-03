@@ -7,10 +7,10 @@ public class Rect {
 	private int x,y,width,height;
 	private Color c;
 	
-	public Rect(int x, int y, int w, int h) {
+	public Rect(int x, int y, int w, int h, Color c) {
 		this.x=x; this.y=y; this.width=w; this.height=h;
+		this.c = c;
 	}
-
 	
 	public int getX() {
 		return x;

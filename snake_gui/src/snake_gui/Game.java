@@ -4,188 +4,301 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
 class SnakePanel extends MyUtil {
-	private final int SIZE = 10;
-	private final int mapSize = 50;
-	private Rect[][] map;
 
-	private int size; // 길이정보
-	private Rect[] snake;
-	private boolean isSnake;
-	private int xx;
-	private int yy;
-	private int dir; // 1상 2좌 3하 4우
+	private Rect[][] map = new Rect[10][10];
 
-	private JButton reset; // 리셋버튼
-	private JButton[] btn; // 방향키버튼
-	String text[] = { "▲", "◀", "▼", "▶" };
+	private ArrayList<Rect> snake = new ArrayList<>();
+	int yy;
+	int xx;
+	private ArrayList<ArrayList<Integer>> yx = new ArrayList<>();
+	private Color head = Color.red;
+	private Color body = Color.green;
+	private int dir;
+	private boolean growTail;
+
+	private ArrayList<Rect> items = new ArrayList<Rect>();
+	private ArrayList<ArrayList<Integer>> itemsYx = new ArrayList<ArrayList<Integer>>();
+
+	private JButton[] btns = new JButton[4];
+	private JButton reset = new JButton();
 
 	public SnakePanel() {
 		setLayout(null);
 		setBounds(0, 0, 900, 700);
-		setVisible(true);
 
 		setMap();
 		setSnake();
 		setItems();
+		setButtons();
 		setReset();
-		setBtns();
-	}
 
-	private void setItems() { // 아이템 랜덤뿌리기
-		Random ran = new Random();
-		
-		int rX = ran.nextInt(SIZE);
-		int rY = ran.nextInt(SIZE);
-		map[rX][rY].setC(Color.cyan);
-//		for(int i=0;i<map.length;i++) {
-//			for(int j=0;j<map[i].length;j++) {
-//				
-//			}
-//		}
-	}
+		setFocusable(true);
+		addKeyListener(this);
 
-	private void setSnake() {
-		int sX = mapSize;
-		int sY = mapSize;
-		size = 4;
-		snake = new Rect[size];
-		for (int i = 0; i < size; i++) {
-			snake[i] = new Rect(sX, sY, mapSize, mapSize);
-			sX += mapSize;
-		}
-		
-	}
-
-	private void setReset() {
-		reset = new JButton();
-		reset.setBounds(700, 500, mapSize * 3, mapSize);
-		reset.setText("Reset");
-		reset.setFont(new Font("", Font.BOLD, 15));
-		reset.setBackground(Color.white);
-		reset.addActionListener(this);
-		reset.setVisible(true);
-		add(reset);
-	}
-
-	private void setBtns() {
-		int btnX = 0;
-		int btnY = 0;
-
-		btn = new JButton[4];
-		for (int i = 0; i < 4; i++) {
-			btn[i] = new JButton();
-			btn[i].addActionListener(this);
-			btn[i].setText(text[i]);
-			btn[i].setBackground(Color.white);
-			// setting again
-			btn[i].setBounds(btnX + 600, btnY + 300, mapSize, mapSize);
-			btnX += mapSize;
-			add(btn[i]);
-		}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		JButton temp = (JButton) e.getSource();
-		for (int i = 0; i < 4; i++) {
-			if (temp.getText() == text[i]) {
-				dir = (i + 1);
-			}
-		}
-		update();
-
-	}
-
-	private void update() {
-		// head
-		xx = this.snake[0].getX();
-		yy = this.snake[0].getY();
-		// 몸통이 있다면 조건 추가
-
-		// 두번째 몸통부터 : 좌우에 있다면 첫째머리와 인접하 방향으로
-		// 두번째 몸통부터 : 위에 있다면 같은 방향으로
-		if (this.dir == 1 && yy > mapSize && !isSnake) { // 상
-			yy -= mapSize;
-			System.out.println(isSnake);
-		} else if (dir == 2 && xx > mapSize&& !isSnake) { // 좌
-			xx -= mapSize;
-		} else if (dir == 3 && yy < mapSize * 10&& !isSnake) { // 하
-			yy += mapSize;
-		} else if (dir == 4 && xx < mapSize * 10&& !isSnake) { // 우
-			xx += mapSize;
-		}
-		this.snake[0].setY(yy);
-		this.snake[0].setX(xx);
-		
-		
+		System.out.println(yx);
 	}
 
 	private void setMap() {
-		int x = mapSize;
-		int y = mapSize;
-		map = new Rect[SIZE][SIZE];
+		int x = 50;
+		int y = 80;
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
-				map[i][j] = new Rect(x, y, mapSize, mapSize);
-				x += mapSize;
+				this.map[i][j] = new Rect(x, y, 50, 50, Color.black);
+				x += 50;
 			}
-			x = mapSize;
-			y += mapSize;
+			y += 50;
+			x = 50;
+		}
+
+	}
+
+	private void setSnake() {
+		for (int i = 0; i < 4; i++) {
+			Rect temp = this.map[0][i];
+			Rect nemo = null;
+			if (i == 0) {
+				nemo = new Rect(temp.getX(), temp.getY(), temp.getWidth(), temp.getHeight(), head);
+			} else {
+				nemo = new Rect(temp.getX(), temp.getY(), temp.getWidth(), temp.getHeight(), body);
+			}
+			this.snake.add(nemo);
+
+			ArrayList<Integer> pair = new ArrayList<>();
+			pair.add(0);
+			pair.add(i);
+			this.yx.add(pair);
+//			System.out.println(this.yx);
+		}
+
+	}
+
+	private void setItems() {
+		Random ran = new Random();
+		int n = ran.nextInt(10) + 5;
+		for (int i = 0; i < n; i++) {
+			int y = ran.nextInt(this.map.length);
+			int x = ran.nextInt(this.map.length);
+
+			boolean check = false;
+			for (int j = 0; j < this.yx.size(); j++) {
+				if (y == this.yx.get(j).get(0) && x == this.yx.get(j).get(1)) {
+					check = true;
+				}
+			}
+
+			if (check) {
+				i--;
+			} else {
+				Rect temp = this.map[y][x];
+				Rect item = new Rect(temp.getX() + 10, temp.getY() + 10, temp.getWidth() - 20, temp.getHeight() - 20,
+						Color.cyan);
+				this.items.add(item);
+
+				ArrayList<Integer> pair = new ArrayList<Integer>();
+				pair.add(y);
+				pair.add(x);
+				this.itemsYx.add(pair);
+			}
+
+		}
+
+	}
+
+	private void setReset() {
+		this.reset.setBounds(620, 470, 150, 50);
+		this.reset.setText("Reset");
+		this.reset.setBackground(Color.white);
+		this.reset.addMouseListener(this);
+		add(this.reset);
+	}
+
+	private void setButtons() {
+		int x = 670;
+		int y = 350;
+		String text[] = { "▲", "◀", "▼", "▶" };
+		for (int i = 0; i < btns.length; i++) {
+			btns[i] = new JButton();
+			btns[i].setBounds(x, y, 50, 50);
+			btns[i].setBackground(Color.white);
+			btns[i].setText(text[i]);
+			if (i == 0) {
+				x -= 50;
+				y += 50;
+			} else {
+				x += 50;
+			}
+			btns[i].addMouseListener(this);
+			add(btns[i]);
+		}
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// reset
+		if (e.getSource() == this.reset) {
+			// item reset
+			for (int i = 0; i < this.itemsYx.size(); i++) {
+				this.items.remove(i);
+				this.itemsYx.remove(i);
+			}
+
+			// snake reset
+			for (int i = 0; i < this.yx.size(); i++) {
+				System.out.println(i);
+				yx.clear();
+			}
+			this.yx = new ArrayList<>();
+			ArrayList<Integer> pair = new ArrayList<>();
+			pair.add(0);
+			pair.add(0);
+			this.yx.add(pair);
+			System.out.println(yx);
+			for (int i = 0; i < snake.size(); i++) {
+				this.snake.clear();
+			}
+			yy = this.yx.get(0).get(0);
+			xx = this.yx.get(0).get(1);
+			setItems();
+			setSnake();
+
+		} else {
+			// dir
+			if (e.getSource() == this.btns[1]) {// 좌
+				this.dir = 1;
+			} else if (e.getSource() == this.btns[3]) {// 우
+				this.dir = 2;
+			} else if (e.getSource() == this.btns[0]) {// 상
+				this.dir = 3;
+			} else if (e.getSource() == this.btns[2]) {// 하
+				this.dir = 4;
+			}
+			move();
+
 		}
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		setItems();
-		// map
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[i].length; j++) {
-				Rect rect = this.map[i][j];
-				Rect tmp = new Rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-				g.setColor(Color.black);
-				g.drawRect(tmp.getX(), tmp.getY(), tmp.getWidth(), tmp.getHeight());
+		// snake
+		for (int i = 0; i < this.snake.size(); i++) {
+			Rect nemo = this.snake.get(i);
+			g.setColor(nemo.getC());
+			g.fillRect(nemo.getX(), nemo.getY(), nemo.getWidth(), nemo.getHeight());
+		}
 
+		// map
+		for (int i = 0; i < this.map.length; i++) {
+			for (int j = 0; j < this.map[i].length; j++) {
+				Rect nemo = this.map[i][j];
+				g.setColor(nemo.getC());
+				g.drawRect(nemo.getX(), nemo.getY(), nemo.getWidth(), nemo.getHeight());
 			}
 		}
-		// snake
-		for (int i = 0; i < this.size; i++) {
-			Rect snake = this.snake[i];
-			Rect tmp = new Rect(snake.getX(), snake.getY(), snake.getWidth(), snake.getHeight());
-			if (i == 0) {
-				g.setColor(Color.red);
-				g.fillRect(tmp.getX(), tmp.getY(), tmp.getWidth(), tmp.getHeight());
-			} else {
-				g.setColor(Color.blue);
-			}
-			g.drawRect(tmp.getX(), tmp.getY(), tmp.getWidth(), tmp.getHeight());
+
+		// item
+		for (int i = 0; i < this.items.size(); i++) {
+			Rect nemo = this.items.get(i);
+			g.setColor(nemo.getC());
+			g.fillRoundRect(nemo.getX(), nemo.getY(), nemo.getWidth(), nemo.getHeight(), nemo.getWidth(),
+					nemo.getHeight());
 		}
 
 		repaint();
 	}
 
-}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == e.VK_LEFT) {
+			this.dir = 1;
+		} else if (e.getKeyCode() == e.VK_RIGHT) {
+			this.dir = 2;
+		} else if (e.getKeyCode() == e.VK_UP) {
+			this.dir = 3;
+		} else if (e.getKeyCode() == e.VK_DOWN) {
+			this.dir = 4;
+		}
 
-public class Game extends JFrame {
-
-	private SnakePanel panel = new SnakePanel();
-
-	public Game() {
-		super("Snake Game");
-		setLayout(null);
-		setBounds(100, 100, 900, 700);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-		add(panel);
-
-		setVisible(true);
-		revalidate();
+		move();
 	}
+
+	private void move() {
+		System.out.println(yx);
+		yy = this.yx.get(0).get(0);
+		xx = this.yx.get(0).get(1);
+
+		// movement
+		if (dir == 1 && xx > 0) {
+			xx--;
+		} else if (dir == 2 && xx < this.map.length - 1) {
+			xx++;
+		} else if (dir == 3 && yy > 0) {
+			yy--;
+		} else if (dir == 4 && yy < this.map.length - 1) {
+			yy++;
+		}
+
+		// eat items
+		for (int i = 0; i < this.itemsYx.size(); i++) {
+			if (yy == this.itemsYx.get(i).get(0) && xx == this.itemsYx.get(i).get(1)) {
+				this.items.remove(i);
+				this.itemsYx.remove(i);// 좌표정보도 갱신
+				this.growTail = true;
+			}
+		}
+
+		// check body
+		boolean check = false;
+		for (int i = 0; i < this.yx.size(); i++) {
+			if (yy == this.yx.get(i).get(0) && xx == this.yx.get(i).get(1)) {
+				check = true;
+			}
+		}
+		if (!check) {
+			Rect tail = this.snake.get(this.snake.size() - 1);
+			ArrayList<Integer> tailYx = this.yx.get(this.yx.size() - 1);
+
+			for (int i = this.snake.size() - 1; i > 0; i--) {
+				Rect temp = this.snake.get(i - 1);
+				temp.setC(body);
+				this.snake.set(i, temp);
+				this.yx.set(i, this.yx.get(i - 1));
+			}
+
+			// head
+			Rect temp = this.map[yy][xx];
+			Rect newHead = new Rect(temp.getX(), temp.getY(), temp.getWidth(), temp.getHeight(), head);
+			this.snake.set(0, newHead);
+
+			ArrayList<Integer> pair = new ArrayList<>();
+			pair.add(yy);
+			pair.add(xx);
+			this.yx.set(0, pair);
+
+			if (growTail) {
+				this.snake.add(tail);
+				this.yx.add(tailYx);
+				growTail = false;
+			}
+		} else {
+			System.out.println("충돌! 사망...");
+			new Alert();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		this.dir = 0;
+	}
+
 }
