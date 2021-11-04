@@ -30,7 +30,6 @@ public class DrawPanel extends MyUtil {
 		// 처음 누른 위치 확인
 		startX = e.getX();
 		startY = e.getY();
-//		System.out.println(startX + ", " + startY);
 	}
 
 	@Override
@@ -38,8 +37,7 @@ public class DrawPanel extends MyUtil {
 		// 떼었을 때 위치 확인
 		endX = e.getX();
 		endY = e.getY();
-//		System.out.println(endX + ", " + endY);
-		System.out.println((endX - startX) + "," + (endY - startY));
+//		System.out.println((endX - startX) + "," + (endY - startY));
 	}
 
 	@Override
@@ -49,17 +47,19 @@ public class DrawPanel extends MyUtil {
 		// 범위따라 사각형 그어짐
 		width = e.getX() - startX;
 		height = e.getY() - startY;
-		System.out.println("W:" + width + ", H:" + height);
+		// System.out.println("W:" + width + ", H:" + height);
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// keyPress → shift 누르고 + 드래그 → 정사각
 		if (e.isShiftDown() == true) {
-			if (width != height && width > height) {
+			if (width > 0 && height < 0) {
+				width = -height;
+			} else if (width < 0 && height > 0) {
+				height = -width;
+			} else {
 				height = width;
-			} else if (width != height && width < height) {
-				width = height;
 			}
 		}
 	}
