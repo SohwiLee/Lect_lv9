@@ -8,8 +8,8 @@ import java.awt.event.MouseEvent;
 public class DrawPanel extends MyUtil {
 	int startX;
 	int startY; // 시작지점
-	int endX;
-	int endY; // 끝지점
+//	int endX;
+//	int endY; // 끝지점
 	int width;
 	int height;
 
@@ -35,8 +35,8 @@ public class DrawPanel extends MyUtil {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// 떼었을 때 위치 확인
-		endX = e.getX();
-		endY = e.getY();
+//		endX = e.getX();
+//		endY = e.getY();
 //		System.out.println((endX - startX) + "," + (endY - startY));
 	}
 
