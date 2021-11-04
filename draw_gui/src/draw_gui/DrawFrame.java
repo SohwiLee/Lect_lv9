@@ -6,24 +6,24 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class DrawFrame extends JFrame implements MouseListener {
-//	private JButton close = new JButton("close");
+
+	private JButton close = new JButton("close");
 
 	public DrawFrame() {
 		super("Let's Draw!");
 		setLayout(null);
-		setBounds(200, 200, 900, 700);
+		setBounds(200, 200, 1000, 700);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-//		close.setBounds(0, 0, 80, 80);
-//		close.setBackground(Color.white);
-//		close.addMouseListener(this);
-//		add(close);
-		
+		close.setLayout(null);
+		close.setBounds(850, 500, 80, 80);
+		close.setBackground(Color.white);
+		close.addMouseListener(this);
 
 		add(new DrawPanel());
+		add(close);
 
 		setVisible(true);
 		revalidate();
@@ -32,11 +32,9 @@ public class DrawFrame extends JFrame implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-//		System.out.println("GG");
-//		if (e.getSource() == this.close) {
-//			this.dispose();
-//		}
-
+		if (e.getSource() == this.close) {
+			this.dispose();
+		}
 	}
 
 	@Override

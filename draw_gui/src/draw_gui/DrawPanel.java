@@ -28,12 +28,10 @@ public class DrawPanel extends MyUtil {
 	int height;
 	Square rect = new Square(x, y, width, height);
 
-	private JButton close = new JButton("close");
 
 	public DrawPanel() {
-		setBounds(0, 0, 900, 700);
-
-		setBtn();
+		setBounds(20, 20, 800, 600);
+		setBackground(Color.white);
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -41,14 +39,6 @@ public class DrawPanel extends MyUtil {
 		setFocusable(true);
 		addKeyListener(this);
 
-	}
-
-	private void setBtn() {
-		setLayout(null);
-		this.close.setBounds(700, 500, 80, 80);
-		this.close.setBackground(Color.white);
-		this.close.addActionListener(this);
-		add(this.close);
 	}
 
 	@Override
