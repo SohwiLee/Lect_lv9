@@ -14,14 +14,17 @@ public class DrawFrame extends JFrame implements MouseListener {
 	public DrawFrame() {
 		super("Let's Draw!");
 		setLayout(null);
-		setBounds(200, 200, 1000, 700);
+		setBounds(100, 100, 1000, 700);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		close.setLayout(null);
 		close.setBounds(850, 500, 80, 80);
 		close.setBackground(Color.white);
 		close.addMouseListener(this);
-
+		// closebutton 패널에다 만들 시
+		// 패널.close.addActionListener(this);
+		// 하단, actionPerformed에서 처리
+		
 		add(new DrawPanel());
 		add(close);
 
