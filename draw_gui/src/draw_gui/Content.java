@@ -18,16 +18,16 @@ public class Content extends Util {
 	private boolean[] drawCheck = new boolean[3];
 
 	// 그려지는 객체
-	private int shapeX, shapeY, shapeW, shapeH;
+//	private int shapeX, shapeY, shapeW, shapeH;
 	ArrayList<Nemo> nemos = new ArrayList<>();// 마우스 릴리즈시 배열안에 고정!, for문 돌려 paintcomponent에 넣기
-	ArrayList<Round> rounds = new ArrayList<>();
-	private int x1, x2, x3, y1, y2, y3;
-	ArrayList<Triangle> triangles = new ArrayList<>();
+	ArrayList<Nemo> rounds = new ArrayList<>();
+//	private int x1, x2, x3, y1, y2, y3;
+	ArrayList<Nemo> triangles = new ArrayList<>();
 
 	private int x, y, startX, startY, xx, yy;
 	private Nemo nemo = null; // 드래그 하는 동안 현재 그리고 있는 네모
-	private Round round = null;
-	private Triangle triangle = null;
+//	private Round round = null;
+//	private Triangle triangle = null;
 
 	public Content() {
 		setLayout(null);
@@ -94,12 +94,15 @@ public class Content extends Util {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		this.x = this.startX; // 포인트 튀는 것 방지
+		this.y = this.startY;
+
 		xx = e.getX();
 		yy = e.getY();
 
 		// 네모설정
-		int width = Math.abs(xx - x);
-		int height = Math.abs(yy - y);
+		int width = drawCheck[1] ? xx - x : Math.abs(xx - x);
+		int height = drawCheck[1] ? yy - y : Math.abs(yy - y);
 
 		// 예외처리
 		if (this.x > xx && width > 1) {
@@ -110,8 +113,8 @@ public class Content extends Util {
 		}
 
 		this.nemo = new Nemo(x, y, width, height, Color.blue);
-		this.round = new Round(x, y, width, height, Color.orange);
-		this.triangle = new Triangle(xx - ((xx - startX) / 2), startX, xx, startY, yy, yy);
+//		this.round = new Round(x, y, width, height, Color.orange);
+//		this.triangle = new Triangle(xx - ((xx - startX) / 2), startX, xx, startY, yy, yy);
 //		System.out.println(this.nemo.getX()+", "+ this.nemo.getY()+", "+this.nemo.getWidth()+", "+this.nemo.getHeight());
 	}
 
@@ -119,15 +122,20 @@ public class Content extends Util {
 	public void mouseReleased(MouseEvent e) {
 		// 좌표 및 도형기억
 		if (drawCheck[0]) {
-			nemos.add(new Nemo(shapeX, shapeY, shapeW, shapeH, Color.blue));
+			this.nemos.add(this.nemo);
+//			nemos.add(new Nemo(shapeX, shapeY, shapeW, shapeH, Color.blue));
 		} else if (drawCheck[1]) {
-			triangles.add(new Triangle(x1, x2, x3, y1, y2, y3));
+			this.triangles.add(this.nemo);
+//			triangles.add(new Triangle(x1, x2, x3, y1, y2, y3));
 		} else if (drawCheck[2]) {
-			rounds.add(new Round(shapeX, shapeY, shapeW, shapeH, Color.orange));
+			this.rounds.add(this.nemo);
+//			rounds.add(new Round(shapeX, shapeY, shapeW, shapeH, Color.orange));
 		}
 //		for (int i = 0; i < this.nemos.size(); i++) {
 //			System.out.println(nemos.get(i).getX()+" "+ nemos.get(i).getY() + " " +nemos.get(i).getWidth()+" "+nemos.get(i).getHeight());
 //		}
+
+		this.nemo = null;
 	}
 
 	@Override
@@ -135,66 +143,50 @@ public class Content extends Util {
 
 		super.paintComponent(g);
 
-		// 사각형모음
-		for (int i = 0; i < this.nemos.size(); i++) {
-			Nemo inOrder = this.nemos.get(i);
-			g.setColor(Color.red);
-			g.drawRect(inOrder.getX(), inOrder.getY(), inOrder.getWidth(), inOrder.getHeight());
-//			System.out.println(inOrder.getX()+", "+ inOrder.getY() + " " +inOrder.getWidth()+" "+inOrder.getHeight());
-		}
-		// 삼각형모음
-		for (int i = 0; i < this.triangles.size(); i++) {
-			Triangle inOrder = this.triangles.get(i);
-			int[] triX = { inOrder.getX1(), inOrder.getX2(), inOrder.getX3() };
-			int[] triY = { inOrder.getY1(), inOrder.getY2(), inOrder.getY3() };
-			g.setColor(Color.red);
-			g.drawPolygon(triX, triY, 3);
-		}
-		// 원모음
-		for (int i = 0; i < this.rounds.size(); i++) {
-			Round inOrder = this.rounds.get(i);
-			g.setColor(Color.red);
-			g.drawRoundRect(inOrder.getX(), inOrder.getY(), inOrder.getWidth(), inOrder.getHeight(), inOrder.getWidth(),
-					inOrder.getHeight());
-		}
-
-		// 사각형그리기 스레드
-		if (this.drawCheck[0] && this.nemo != null) {
+		if (this.nemo != null) {
 			g.setColor(this.nemo.getC());
-			g.drawRect(this.nemo.getX(), this.nemo.getY(), this.nemo.getWidth(), this.nemo.getHeight());
-			shapeX = this.nemo.getX();
-			shapeY = this.nemo.getY();
-			shapeW = this.nemo.getWidth();
-			shapeH = this.nemo.getHeight();
+			if (this.drawCheck[0]) {
+				// 사각형그리기 스레드
+				g.drawRect(this.nemo.getX(), this.nemo.getY(), this.nemo.getWidth(), this.nemo.getHeight());
+			} else if (this.drawCheck[1]) {
+				// 삼각형 그리기
+				// drawPolygon(int[],int[],int);
+				// (x좌표 배열, y좌표 배열, 꼭지점 개수)
+				// sX sY () xx sY
+				// sX yy() () xx yy
+				int xxx[] = new int[3];
+				int yyy[] = new int[3];
+				xxx[0] = this.nemo.getX();
+				yyy[0] = this.nemo.getY();
+				xxx[1] = this.nemo.getX() - (this.nemo.getWidth() / 2);
+				yyy[1] = this.nemo.getY() + this.nemo.getHeight();
+				xxx[2] = this.nemo.getX() + (this.nemo.getWidth() / 2);
+				yyy[2] = this.nemo.getY() + this.nemo.getHeight();
+				g.drawPolygon(xxx, yyy, 3);
+			} else if (this.drawCheck[2]) {
+				g.drawRoundRect(this.nemo.getX(), this.nemo.getY(), this.nemo.getWidth(), this.nemo.getHeight(),
+						this.nemo.getWidth(), this.nemo.getHeight());
+			}
 		}
-
-		// 삼각형 그리기
-		// drawPolygon(int[],int[],int);
-		// (x좌표 배열, y좌표 배열, 꼭지점 개수)
-		if (this.drawCheck[1] && this.triangle != null) {
-			// sX sY () xx sY
-			// sX yy() () xx yy
-			int[] xxx = { triangle.getX1(), triangle.getX2(), triangle.getX3() };
-			int[] yyy = { triangle.getY1(), triangle.getY2(), triangle.getY3() };
-			g.setColor(Color.green);
-			g.drawPolygon(xxx, yyy, 3);
-			x1 = triangle.getX1();
-			x2 = triangle.getX2();
-			x3 = triangle.getX3();
-			y1 = triangle.getY1();
-			y2 = triangle.getY2();
-			y3 = triangle.getY3();
+		for (Nemo n : this.nemos) {
+			g.setColor(n.getC());
+			g.drawRect(n.getX(), n.getY(), n.getWidth(), n.getHeight());
 		}
-
-		// 원그리기
-		if (this.drawCheck[2] && this.round != null) {
-			g.setColor(Color.orange);
-			g.drawRoundRect(this.round.getX(), this.round.getY(), this.round.getWidth(), this.round.getHeight(),
-					this.round.getWidth(), this.round.getHeight());
-			shapeX = this.round.getX();
-			shapeY = this.round.getY();
-			shapeW = this.round.getWidth();
-			shapeH = this.round.getHeight();
+		for (Nemo n : this.triangles) {
+			g.setColor(n.getC());
+			int xx[] = new int[3];
+			int yy[] = new int[3];
+			xx[0] = n.getX();
+			yy[0] = n.getY();
+			xx[1] = n.getX() - (n.getWidth() / 2);
+			yy[1] = n.getY() + n.getHeight();
+			xx[2] = n.getX() + (n.getWidth() / 2);
+			yy[2] = n.getY() + n.getHeight();
+			g.drawPolygon(xx, yy, 3);
+		}
+		for (Nemo n : this.rounds) {
+			g.setColor(n.getC());
+			g.drawRoundRect(n.getX(), n.getY(), n.getWidth(), n.getHeight(), n.getWidth(), n.getHeight());
 		}
 		requestFocusInWindow();
 		repaint();
