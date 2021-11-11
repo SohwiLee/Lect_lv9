@@ -18,8 +18,6 @@ public class GamePanel extends MyUtil {
 	private int pX;
 	private int dir;// 방향 (1up 2down 3right 4left)
 
-	private int cnt; // BoxGoal개수 // point 총 개수 : 7
-
 	public GamePanel() {
 		setLayout(null);
 		setBounds(0, 0, GameFrame.width, GameFrame.height);
@@ -60,14 +58,12 @@ public class GamePanel extends MyUtil {
 					this.map[i][j].setState(Tile.GROUND);
 				}
 
-				// 포인트+박스 겹침시작 예외처리
+				// 포인트+박스 겹침시작 예외처리 < 다시 풀어봐야함...
 				if (i == 6 && j == 3) {
 					this.map[i][j].setState(Tile.BOX);
 				}
 				if (mapNum[i][j] == Tile.POINT && this.map[i][j].getState() == Tile.BOX) {
-					map[i][j].setState(Tile.BOXGOAL);
-					goal[i][j] = true;
-				} else {
+					this.map[i][j].setState(Tile.BOXGOAL);
 					goal[i][j] = true;
 				}
 				this.map[i][j].setFileName(String.format("images/tile%d.png", map[i][j].getState()));
@@ -84,13 +80,13 @@ public class GamePanel extends MyUtil {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == e.VK_UP) {
+		if (e.getKeyCode() == e.VK_UP || e.getKeyCode() == 87) {
 			this.dir = 1;
-		} else if (e.getKeyCode() == e.VK_DOWN) {
+		} else if (e.getKeyCode() == e.VK_DOWN || e.getKeyCode() == 83) {
 			this.dir = 2;
-		} else if (e.getKeyCode() == e.VK_RIGHT) {
+		} else if (e.getKeyCode() == e.VK_RIGHT || e.getKeyCode() == 68) {
 			this.dir = 3;
-		} else if (e.getKeyCode() == e.VK_LEFT) {
+		} else if (e.getKeyCode() == e.VK_LEFT || e.getKeyCode() == 65) {
 			this.dir = 4;
 		}
 
@@ -187,8 +183,8 @@ public class GamePanel extends MyUtil {
 			}
 //			System.out.println();
 		}
-//		System.out.println(cnt);
-		if (cnt == 7) {
+		System.out.println(cnt);
+		if (cnt == 6) {
 			new Alert();
 		}
 
