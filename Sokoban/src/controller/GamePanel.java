@@ -11,6 +11,7 @@ import models.Tile;
 
 public class GamePanel extends MyUtil {
 	private Tile[][] map = new Tile[9][8];
+	private int[][] mapNum = new int[9][8];
 
 	private int pY;
 	private int pX;
@@ -61,10 +62,11 @@ public class GamePanel extends MyUtil {
 					this.map[i][j].setState(Tile.GROUND);
 				}
 
+
 				this.map[i][j].setFileName(String.format("images/tile%d.png", map[i][j].getState()));
-				;
 				x += 70;
 //				System.out.print(this.map[i][j].getState());
+				 this.mapNum[i][j]=this.map[i][j].getState();
 			}
 //			System.out.println();
 			y += 70;
@@ -89,15 +91,19 @@ public class GamePanel extends MyUtil {
 	}
 
 	private void move() {
-		map[pY][pX].setState(Tile.GROUND); // 있던 자리 변경
-		if (dir == 1 && pY - 1 > 0) { // 상
+		if(mapNum[pY][pX]==Tile.POINT) {
+			map[pY][pX].setState(Tile.POINT); // 있던 자리 변경(포인트그대로)
+		}else {
+			map[pY][pX].setState(Tile.GROUND); // 있던 자리 변경(혹은 그라운드)
+		}
+		if (dir == 1 && pY - 1 >= 0) { // 상
 			// 상자O벽X > 같이 움직임, 상자O골O > 상자상태바뀜
-			if (map[pY - 1][pX].getState() == Tile.BOX) {
+			if (map[pY - 1][pX].getState() == Tile.BOX || map[pY - 1][pX].getState() == Tile.BOXGOAL) {
 				if (map[pY - 2][pX].getState() != Tile.WALL && map[pY - 2][pX].getState() != Tile.BOX) {
 					pY -= 1;
 					if (map[pY - 1][pX].getState() == Tile.POINT) {
 						map[pY - 1][pX].setState(Tile.BOXGOAL);
-						cnt++;
+						if(mapNum[pY - 1][pX]==Tile.POINT) cnt++;
 					} else {
 						map[pY - 1][pX].setState(Tile.BOX);
 					}
@@ -107,12 +113,12 @@ public class GamePanel extends MyUtil {
 			}
 			map[pY][pX].setState(Tile.PLAYER);
 		} else if (dir == 2 && pY + 1 < this.map.length) { // 하
-			if (map[pY + 1][pX].getState() == Tile.BOX) {
+			if (map[pY + 1][pX].getState() == Tile.BOX || map[pY + 1][pX].getState() == Tile.BOXGOAL) {
 				if (map[pY + 2][pX].getState() != Tile.WALL && map[pY + 2][pX].getState() != Tile.BOX) {
 					pY += 1;
 					if (map[pY + 1][pX].getState() == Tile.POINT) {
 						map[pY + 1][pX].setState(Tile.BOXGOAL);
-						cnt++;
+						if(mapNum[pY + 1][pX]==Tile.POINT) cnt++;
 					} else {
 						map[pY + 1][pX].setState(Tile.BOX);
 					}
@@ -122,12 +128,12 @@ public class GamePanel extends MyUtil {
 			}
 			map[pY][pX].setState(Tile.PLAYER);
 		} else if (dir == 3 && pX + 1 < this.map[0].length) {// 우
-			if (map[pY][pX + 1].getState() == Tile.BOX) {
+			if (map[pY][pX + 1].getState() == Tile.BOX || map[pY][pX + 1].getState() == Tile.BOXGOAL) {
 				if (map[pY][pX + 2].getState() != Tile.WALL && map[pY][pX + 2].getState() != Tile.BOX) {
 					pX += 1;
 					if (map[pY][pX + 1].getState() == Tile.POINT) {
 						map[pY][pX + 1].setState(Tile.BOXGOAL);
-						cnt++;
+						if(mapNum[pY][pX+1]==Tile.POINT) cnt++;
 					} else {
 						map[pY][pX + 1].setState(Tile.BOX);
 					}
@@ -136,13 +142,14 @@ public class GamePanel extends MyUtil {
 				pX += 1;
 			}
 			map[pY][pX].setState(Tile.PLAYER);
-		} else if (dir == 4 && pX - 1 > 0) {// 좌
-			if (map[pY][pX - 1].getState() == Tile.BOX) {
-				if (map[pY][pX - 2].getState() != Tile.WALL && map[pY][pX - 2].getState() != Tile.BOX) {
+		} else if (dir == 4 && pX - 1 >= 0) {// 좌
+			if (map[pY][pX - 1].getState() == Tile.BOX || map[pY][pX - 1].getState() == Tile.BOXGOAL) {
+				if (map[pY][pX - 2].getState() != Tile.WALL && map[pY][pX - 2].getState() != Tile.BOX && map[pY][pX - 2].getState() != Tile.BOXGOAL) {
 					pX -= 1;
 					if (map[pY][pX - 1].getState() == Tile.POINT) {
 						map[pY][pX - 1].setState(Tile.BOXGOAL);
-						cnt++;
+						if(mapNum[pY][pX - 1]==Tile.POINT) {cnt++;}
+						else {cnt--;}
 					} else {
 						map[pY][pX - 1].setState(Tile.BOX);
 					}
@@ -152,14 +159,7 @@ public class GamePanel extends MyUtil {
 			}
 			map[pY][pX].setState(Tile.PLAYER);
 		}
-//		System.out.println("---");
-//		for (int i = 0; i < this.map.length; i++) {
-//			for (int j = 0; j < this.map[i].length; j++) {
-//				System.out.print(map[i][j].getState());
-//			}
-//			System.out.println();
-//		}
-
+		
 		if (cnt == 7) {
 			new Alert();
 		}

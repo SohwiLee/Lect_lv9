@@ -33,6 +33,10 @@ public class Tile {
 
 	public void setState(int state) {
 		this.state = state;
+		// 이미지 바꿔주기
+		this.fileName = String.format("images/tile%d.png",this.state);
+		Image temp = new ImageIcon(fileName).getImage().getScaledInstance(w,h,Image.SCALE_SMOOTH);
+		this.image = new ImageIcon(temp);
 	}
 
 	public int getX() {
