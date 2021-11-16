@@ -34,9 +34,9 @@ public class CoffeePanel extends MyUtil {
 	public CoffeePanel() {
 		setBackground(Color.blue);
 		setLayout(null);
-		setBounds(0, 80, Kiosk.width, 600);
+//		setBounds(0, 0, Kiosk.width, 680);
+		setBounds(0, 0, Kiosk.width, 1000);
 		setImages();
-//		setLabel();
 	}
 
 //	private void setLabel() {
@@ -92,12 +92,12 @@ public class CoffeePanel extends MyUtil {
 							}
 						}
 					}
-					add(table, 0);
+//					add(table, 0);
 
 				}
 			}
 		}
-
+		add(table,0);
 //		for (int k = 0; k < table.selectItems.size(); k++) {
 ////			System.out.println(table.selectItems.get(k).get(1) + "*" + table.selectItems.get(k).get(2));
 //			totalPrice += (Integer.parseInt(table.selectItems.get(k).get(1))

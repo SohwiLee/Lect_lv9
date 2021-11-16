@@ -31,9 +31,11 @@ public class TeaPanel extends MyUtil {
 	int h = 130;
 
 	// 버튼에 이미지 입히기
-	public TeaPanel() {setBackground(Color.orange);
+	public TeaPanel() {
+		setBackground(Color.orange);
 		setLayout(null);
-		setBounds(0, 80, Kiosk.width, 600);
+//		setBounds(0, 0, Kiosk.width, 680);
+		setBounds(0, 0, Kiosk.width, 1000);
 		setImages();
 	}
 
@@ -78,10 +80,11 @@ public class TeaPanel extends MyUtil {
 							}
 						}
 					}
-					add(table, 0);
+//					add(table, 0);
 				}
 			}
 		}
+		add(table,0);
 	}
 	
 	

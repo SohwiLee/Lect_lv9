@@ -79,6 +79,7 @@ public class Kiosk extends JFrame implements ActionListener {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		setFirstPageBtn();
+		setSecondPageBtn();
 
 		setVisible(true);
 		revalidate();
@@ -139,9 +140,6 @@ public class Kiosk extends JFrame implements ActionListener {
 		this.btnTea.addActionListener(this);
 		this.selectFinish.addActionListener(this);
 
-		add(this.btnCoffee);
-		add(this.btnTea);
-		add(this.selectFinish);
 	}
 
 	private void setFirstPageBtn() {
@@ -160,22 +158,23 @@ public class Kiosk extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// 화면1 - 매장or포장 선택
+		add(showTable);
 		if (e.getSource() == this.here || e.getSource() == this.toGo) {
 			this.setContentPane(coffeeMenus);
 		}
-		setSecondPageBtn();
 
 		// 화면2 - 메뉴선택
-			add(showTable);
-		if (e.getSource() == this.btnCoffee) {
+		if (e.getSource() == this.btnCoffee && this.getContentPane() == teaMenus) {
 			System.out.println("COFFEE");
 			this.setContentPane(coffeeMenus);
-		} else if (e.getSource() == this.btnTea) {
+		} else if (e.getSource() == this.btnTea && this.getContentPane() == coffeeMenus) {
 			System.out.println("TEA");
 			this.setContentPane(teaMenus);
 		}
-//		add(showTable);
-		setSecondPageBtn();
+		add(this.btnCoffee);
+		add(this.btnTea);
+		add(this.selectFinish);
+
 		// 이후로 버튼, 테이블 화면에서 지우기
 		if (e.getSource() == this.selectFinish || e.getSource() == this.card || e.getSource() == this.cash) {
 			remove(this.btnCoffee);
