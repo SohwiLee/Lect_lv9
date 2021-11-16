@@ -12,12 +12,9 @@ import models.MyUtil;
 public class TablePanel extends MyUtil {
 
 	// 테이블용 데이터
-
 	Vector<String> colName = new Vector<>();
 	public boolean itemOrdered[][] = new boolean[4][4];
 	JTable table = null;
-
-	int totalPrice;
 
 	public TablePanel() {
 		setLayout(null);
@@ -26,28 +23,15 @@ public class TablePanel extends MyUtil {
 		setTable();
 	}
 
-//	public void addItems(String menu, String price, String count) {
-//		Vector<String> itemList = new Vector<>();
-//		itemList.add(menu); // 메뉴
-//		itemList.add(price); // 가격
-//		itemList.add(count); // 수량
-//		selectItems.add(itemList);
-//		
-////		System.out.println(selectItems);
-//
-//		revalidate();
-//		repaint();
-//	}
-
-//	private void init() {
-//		for (int i = 0; i < 100; i++) {
-//			Vector<String> data = new Vector<>();
-//			data.add(i + 1 + "");
-//			data.add(i + 1 + "");
-//			data.add(i + 1 + "");
-//			selectItems.add(data);
-//		}
-//	}
+	private void init() {// test
+		for (int i = 0; i < 100; i++) {
+			Vector<String> data = new Vector<>();
+			data.add(i + 1 + "");
+			data.add(i + 1 + "");
+			data.add(i + 1 + "");
+			Kiosk.selectItems.add(data);
+		}
+	}
 
 	private void setTable() {
 		this.colName.add("메뉴");

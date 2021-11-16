@@ -13,11 +13,9 @@ import models.MyUtil;
 public class CoffeePanel extends MyUtil {
 	private int itemCount[][] = new int[4][4]; // 개당 총 개수
 	private String itemNames[][] = new String[4][4];
-//	private boolean itemOrdered[][] = new boolean[4][4]; // 1개주문상태
 	private int itemPrices[][] = new int[4][4];
 	// table
 	TablePanel table = new TablePanel();
-	// JLabel total = new JLabel();
 	// 음료메뉴
 	private final int SIZE = 4;
 	private JButton menuBtn[][] = new JButton[SIZE][SIZE];
@@ -33,22 +31,11 @@ public class CoffeePanel extends MyUtil {
 	// 버튼에 이미지 입히기
 	public CoffeePanel() {
 		setLayout(null);
-//		setBounds(0, 0, Kiosk.width, 680);
 		setBounds(0, 0, Kiosk.width, 1000);
 		setImages();
 		add(table);
 	}
 
-//	private void setLabel() {
-//		this.total.setBounds(100, 770, 550, 100);
-//		this.total.setHorizontalAlignment(JLabel.RIGHT);
-//		this.total.setText("합계 : " +0+ "원");
-//		
-//		this.total.setFont(new Font("", Font.BOLD, 25));
-//		add(this.total);
-//	}
-
-//2>6>18
 	private void setImages() {
 		// coffeeMenuSet
 		for (int i = 0; i < SIZE; i++) {
@@ -59,7 +46,6 @@ public class CoffeePanel extends MyUtil {
 				this.menuBtn[i][j].setBackground(Color.white);
 				this.menuBtn[i][j].setBorderPainted(false);
 				this.menuBtn[i][j].addActionListener(this);
-//				this.itemNames[i][j] = item.getFileName().substring(23,25);
 				this.itemNames[i][j] = item.getItemName();
 				this.itemPrices[i][j] = item.getPrice();
 				this.itemCount[i][j] = 0;
@@ -75,7 +61,6 @@ public class CoffeePanel extends MyUtil {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton target = (JButton) e.getSource();
-//		table.totalPrice = 0;
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
 				// 메뉴 클릭시 테이블에 생성할 데이터
@@ -96,25 +81,20 @@ public class CoffeePanel extends MyUtil {
 				}
 			}
 		}
-//		for (int k = 0; k < table.selectItems.size(); k++) {
-////			System.out.println(table.selectItems.get(k).get(1) + "*" + table.selectItems.get(k).get(2));
-//			totalPrice += (Integer.parseInt(table.selectItems.get(k).get(1))
-//					* Integer.parseInt(table.selectItems.get(k).get(2)));
-//		}
-//		System.out.println(totalPrice);
-//		this.total.setText("합계 : " +totalPrice+ "원");
+		Kiosk.calculate();
+		Kiosk.setTotal();
+		add(Kiosk.totalText);
 	}
-	
+
 	public void addItems(String menu, String price, String count) {
 		Vector<String> itemList = new Vector<>();
 		itemList.add(menu); // 메뉴
 		itemList.add(price); // 가격
 		itemList.add(count); // 수량
 		Kiosk.selectItems.add(itemList);
-		
+
 		revalidate();
 		repaint();
 	}
-
 
 }

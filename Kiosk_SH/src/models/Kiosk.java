@@ -1,6 +1,7 @@
 package models;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -12,6 +13,7 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controller.CardPanel;
@@ -30,7 +32,7 @@ class HereOrTogo extends JPanel {
 }
 
 public class Kiosk extends JFrame implements ActionListener {
-	
+
 	public static Vector<Vector<String>> selectItems = new Vector<>();
 	// 창 크기 조절
 	public static Dimension dm = Toolkit.getDefaultToolkit().getScreenSize();
@@ -55,6 +57,8 @@ public class Kiosk extends JFrame implements ActionListener {
 
 	// 메뉴선택 후 다음 버튼
 	JButton selectFinish = new JButton();
+	public static int total; // 총금액
+	public static JLabel totalText = new JLabel();
 
 	// 결제방식 선택버튼
 	JButton card = new JButton();
@@ -73,6 +77,7 @@ public class Kiosk extends JFrame implements ActionListener {
 	CardPanel payCard = new CardPanel();
 	CashPanel payCash = new CashPanel();
 	Receipt rec = new Receipt();
+	private static Component add;
 
 	public Kiosk() {
 		super("KIOSK_SH");
@@ -121,7 +126,7 @@ public class Kiosk extends JFrame implements ActionListener {
 	private void setSecondPageBtn() {
 		this.btnCoffee.setBounds((Kiosk.width / 2) - 50 - 50, 30, 100, 50);
 		this.btnTea.setBounds((Kiosk.width / 2), 30, 100, 50);
-		this.selectFinish.setBounds((Kiosk.width / 2) - 60, 820, 120, 80);
+		this.selectFinish.setBounds((Kiosk.width / 2) - 60, 840, 120, 80);
 
 		this.btnCoffee.setBackground(Color.white); // 초기 선택창 - coffee
 		this.btnTea.setBackground(Color.gray);
@@ -157,31 +162,52 @@ public class Kiosk extends JFrame implements ActionListener {
 
 	}
 
+	public static void calculate() { // 합계 계산
+		total = 0;
+		for (int i = 0; i < selectItems.size(); i++) {
+			int count = Integer.parseInt(selectItems.get(i).get(1));
+			int price = Integer.parseInt(selectItems.get(i).get(2));
+			total += (count * price);
+		}
+		System.out.println(total);
+	}
+
+	public static void setTotal() {
+		totalText.setBounds(560, 800, 300, 60);
+		totalText.setText("합계 : " + total + "원");
+		totalText.setFont(new Font("", Font.BOLD, 20));
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// 화면1 - 매장or포장 선택
 		if (e.getSource() == this.here || e.getSource() == this.toGo) {
 			this.setContentPane(coffeeMenus);
 		}
-
 		add(showTable, 0);
+		setTotal();
+		add(totalText);
+
 		// 화면2 - 메뉴선택
 		if (e.getSource() == this.btnCoffee && this.getContentPane() == teaMenus) {
 			System.out.println("COFFEE");
 			this.setContentPane(coffeeMenus);
 			this.btnTea.setBackground(Color.gray);
 			this.btnCoffee.setBackground(Color.white);
-		} 
+		}
 		if (e.getSource() == this.btnTea && this.getContentPane() == coffeeMenus) {
 			System.out.println("TEA");
 			this.setContentPane(teaMenus);
 			this.btnCoffee.setBackground(Color.gray);
 			this.btnTea.setBackground(Color.white);
 		}
-		add(showTable,0);
+		setTotal();
+		add(totalText);
+		add(showTable, 0);
 		add(this.btnCoffee);
 		add(this.btnTea);
 		add(this.selectFinish);
+
 		// 이후로 버튼, 테이블 화면에서 지우기
 		if (e.getSource() == this.selectFinish || e.getSource() == this.card || e.getSource() == this.cash) {
 			remove(this.btnCoffee);
@@ -192,8 +218,9 @@ public class Kiosk extends JFrame implements ActionListener {
 		if (e.getSource() == this.selectFinish) {
 			this.setContentPane(payment);
 			setThirdPageBtn();
+
 		}
-		
+
 		// 화면3 - 결제창
 		if (e.getSource() == this.card) {
 			this.setContentPane(payCard);

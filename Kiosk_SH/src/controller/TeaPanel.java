@@ -5,20 +5,18 @@ import java.awt.event.ActionEvent;
 import java.util.Vector;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 
 import models.Kiosk;
 import models.Menu;
 import models.MyUtil;
 
 public class TeaPanel extends MyUtil {
+	private int totalPrice = 0;
 	private int itemCount[][] = new int[4][4];
 	private String itemNames[][] = new String[4][4];
-//	private boolean itemOrdered[][] = new boolean[4][4];
 	private int itemPrices[][] = new int[4][4];
 	// table
 	TablePanel table = new TablePanel();
-	JLabel total = new JLabel();
 	// 음료메뉴
 	private final int SIZE = 4;
 	private JButton menuBtn[][] = new JButton[SIZE][SIZE];
@@ -33,10 +31,10 @@ public class TeaPanel extends MyUtil {
 	// 버튼에 이미지 입히기
 	public TeaPanel() {
 		setLayout(null);
-//		setBounds(0, 0, Kiosk.width, 680);
 		setBounds(0, 0, Kiosk.width, 1000);
 		setImages();
 		add(table);
+
 	}
 
 	private void setImages() {
@@ -84,6 +82,9 @@ public class TeaPanel extends MyUtil {
 				}
 			}
 		}
+		Kiosk.calculate();
+		Kiosk.setTotal();
+		add(Kiosk.totalText);
 	}
 
 	public void addItems(String menu, String price, String count) {
@@ -91,7 +92,6 @@ public class TeaPanel extends MyUtil {
 		itemList.add(menu); // 메뉴
 		itemList.add(price); // 가격
 		itemList.add(count); // 수량
-//		table.selectItems.add(itemList);
 		Kiosk.selectItems.add(itemList);
 
 		revalidate();
