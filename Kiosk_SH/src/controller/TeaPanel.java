@@ -32,11 +32,11 @@ public class TeaPanel extends MyUtil {
 
 	// 버튼에 이미지 입히기
 	public TeaPanel() {
-		setBackground(Color.orange);
 		setLayout(null);
 //		setBounds(0, 0, Kiosk.width, 680);
 		setBounds(0, 0, Kiosk.width, 1000);
 		setImages();
+		add(table);
 	}
 
 	private void setImages() {
@@ -47,8 +47,8 @@ public class TeaPanel extends MyUtil {
 				this.menuBtn[i][j] = new JButton(this.item.getImage());
 				this.menuBtn[i][j].setBounds(x, y, 150, 150);
 				this.menuBtn[i][j].setBackground(Color.white);
+				this.menuBtn[i][j].setBorderPainted(false);
 				this.menuBtn[i][j].addActionListener(this);
-
 				this.itemNames[i][j] = item.getItemName();
 				this.itemPrices[i][j] = item.getPrice();
 				this.itemCount[i][j] = 0;
@@ -80,13 +80,10 @@ public class TeaPanel extends MyUtil {
 							}
 						}
 					}
-//					add(table, 0);
+					add(table, 0);
 				}
 			}
 		}
-		add(table,0);
 	}
-	
-	
 
 }

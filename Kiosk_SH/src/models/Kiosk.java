@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -120,8 +121,8 @@ public class Kiosk extends JFrame implements ActionListener {
 		this.btnTea.setBounds((Kiosk.width / 2), 30, 100, 50);
 		this.selectFinish.setBounds(400, 850, 120, 80);
 
-		this.btnCoffee.setBackground(Color.pink); // 초기 선택창 - coffee
-		this.btnTea.setBackground(Color.white);
+		this.btnCoffee.setBackground(Color.white); // 초기 선택창 - coffee
+		this.btnTea.setBackground(Color.gray);
 		this.selectFinish.setBackground(Color.orange);
 
 		this.btnCoffee.setBorderPainted(false);
@@ -158,23 +159,27 @@ public class Kiosk extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// 화면1 - 매장or포장 선택
-		add(showTable);
 		if (e.getSource() == this.here || e.getSource() == this.toGo) {
 			this.setContentPane(coffeeMenus);
 		}
 
+		add(showTable,0);
 		// 화면2 - 메뉴선택
 		if (e.getSource() == this.btnCoffee && this.getContentPane() == teaMenus) {
 			System.out.println("COFFEE");
 			this.setContentPane(coffeeMenus);
+			this.btnTea.setBackground(Color.gray);
+			this.btnCoffee.setBackground(Color.white);
+//			add(showTable,0);
 		} else if (e.getSource() == this.btnTea && this.getContentPane() == coffeeMenus) {
 			System.out.println("TEA");
 			this.setContentPane(teaMenus);
+			this.btnCoffee.setBackground(Color.gray);
+			this.btnTea.setBackground(Color.white);
 		}
 		add(this.btnCoffee);
 		add(this.btnTea);
 		add(this.selectFinish);
-
 		// 이후로 버튼, 테이블 화면에서 지우기
 		if (e.getSource() == this.selectFinish || e.getSource() == this.card || e.getSource() == this.cash) {
 			remove(this.btnCoffee);
@@ -198,12 +203,12 @@ public class Kiosk extends JFrame implements ActionListener {
 			this.setContentPane(payCash);
 		}
 
-		// 화면4 - 영수증 출력여부
+		// 화면4 - 영수증 출력여부 후 닫힘
 		if (e.getSource() == this.receiptY) {
 			System.out.println("END-이용해주셔서 감사합니다, 영수증을 받아가십시오 page");
 			this.dispose();
 		} else if (e.getSource() == this.receiptN) {
-			System.out.println("END-이용해주셔서 감사합니다, page");
+			System.out.println("END-이용해주셔서 감사합니다 page");
 			this.dispose();
 		}
 	}

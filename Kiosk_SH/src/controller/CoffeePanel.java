@@ -32,11 +32,11 @@ public class CoffeePanel extends MyUtil {
 
 	// 버튼에 이미지 입히기
 	public CoffeePanel() {
-		setBackground(Color.blue);
 		setLayout(null);
 //		setBounds(0, 0, Kiosk.width, 680);
 		setBounds(0, 0, Kiosk.width, 1000);
 		setImages();
+		add(table);
 	}
 
 //	private void setLabel() {
@@ -92,12 +92,10 @@ public class CoffeePanel extends MyUtil {
 							}
 						}
 					}
-//					add(table, 0);
-
+					add(table, 0);
 				}
 			}
 		}
-		add(table,0);
 //		for (int k = 0; k < table.selectItems.size(); k++) {
 ////			System.out.println(table.selectItems.get(k).get(1) + "*" + table.selectItems.get(k).get(2));
 //			totalPrice += (Integer.parseInt(table.selectItems.get(k).get(1))
@@ -106,15 +104,5 @@ public class CoffeePanel extends MyUtil {
 //		System.out.println(totalPrice);
 //		this.total.setText("합계 : " +totalPrice+ "원");
 	}
-
-//	public void addItems(String menu, String price, String count) {
-//		table.itemList = new Vector<>();
-//		table.itemList.add(menu); // 메뉴
-//		table.itemList.add(price); // 가격
-//		table.itemList.add(count); // 수량
-//		table.selectItems.add(table.itemList);
-//		revalidate();
-//		repaint();
-//	}
 
 }

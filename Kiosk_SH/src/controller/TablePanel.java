@@ -14,7 +14,7 @@ public class TablePanel extends MyUtil {
 	public Vector<Vector<String>> selectItems = new Vector<>();
 	Vector<String> colName = new Vector<>();
 //	Vector<String> itemList=new Vector<>();
-	Vector<String> itemList;
+	public Vector<String> itemList;
 	public boolean itemOrdered[][] = new boolean[4][4];
 	JTable table = null;
 
@@ -28,25 +28,28 @@ public class TablePanel extends MyUtil {
 	}
 
 	public void addItems(String menu, String price, String count) {
-		this.itemList = new Vector<>();
-		this.itemList.add(menu); // 메뉴
-		this.itemList.add(price); // 가격
-		this.itemList.add(count); // 수량
-		this.selectItems.add(this.itemList);
-	
+		itemList = new Vector<>();
+		itemList.add(menu); // 메뉴
+		itemList.add(price); // 가격
+		itemList.add(count); // 수량
+		selectItems.add(itemList);
+
+		for (int i = 0; i < selectItems.size(); i++) {
+			System.out.println(selectItems.get(i).get(0));
+		}
 		revalidate();
 		repaint();
 	}
 
-	private void init() {
-		for (int i = 0; i < 100; i++) {
-			Vector<String> data = new Vector<>();
-			data.add(i + 1 + "");
-			data.add(i + 1 + "");
-			data.add(i + 1 + "");
-			selectItems.add(data);
-		}
-	}
+//	private void init() {
+//		for (int i = 0; i < 100; i++) {
+//			Vector<String> data = new Vector<>();
+//			data.add(i + 1 + "");
+//			data.add(i + 1 + "");
+//			data.add(i + 1 + "");
+//			selectItems.add(data);
+//		}
+//	}
 
 	private void setTable() {
 		this.colName.add("메뉴");
