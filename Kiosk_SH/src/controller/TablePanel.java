@@ -6,15 +6,14 @@ import java.util.Vector;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import models.Kiosk;
 import models.MyUtil;
 
 public class TablePanel extends MyUtil {
 
 	// 테이블용 데이터
-	public Vector<Vector<String>> selectItems = new Vector<>();
+
 	Vector<String> colName = new Vector<>();
-//	Vector<String> itemList=new Vector<>();
-	public Vector<String> itemList;
 	public boolean itemOrdered[][] = new boolean[4][4];
 	JTable table = null;
 
@@ -27,19 +26,18 @@ public class TablePanel extends MyUtil {
 		setTable();
 	}
 
-	public void addItems(String menu, String price, String count) {
-		itemList = new Vector<>();
-		itemList.add(menu); // 메뉴
-		itemList.add(price); // 가격
-		itemList.add(count); // 수량
-		selectItems.add(itemList);
-
-		for (int i = 0; i < selectItems.size(); i++) {
-			System.out.println(selectItems.get(i).get(0));
-		}
-		revalidate();
-		repaint();
-	}
+//	public void addItems(String menu, String price, String count) {
+//		Vector<String> itemList = new Vector<>();
+//		itemList.add(menu); // 메뉴
+//		itemList.add(price); // 가격
+//		itemList.add(count); // 수량
+//		selectItems.add(itemList);
+//		
+////		System.out.println(selectItems);
+//
+//		revalidate();
+//		repaint();
+//	}
 
 //	private void init() {
 //		for (int i = 0; i < 100; i++) {
@@ -56,7 +54,8 @@ public class TablePanel extends MyUtil {
 		this.colName.add("가격");
 		this.colName.add("개수");
 
-		this.table = new JTable(selectItems, colName);
+//		this.table = new JTable(selectItems, colName);
+		this.table = new JTable(Kiosk.selectItems, colName);
 		this.table.setBounds(0, 0, 600, 120);
 		this.table.setGridColor(Color.gray);
 		this.table.setVisible(true);

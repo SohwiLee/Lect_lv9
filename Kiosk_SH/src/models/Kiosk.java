@@ -30,6 +30,8 @@ class HereOrTogo extends JPanel {
 }
 
 public class Kiosk extends JFrame implements ActionListener {
+	
+	public static Vector<Vector<String>> selectItems = new Vector<>();
 	// 창 크기 조절
 	public static Dimension dm = Toolkit.getDefaultToolkit().getScreenSize();
 	public static int W = dm.width;
@@ -81,7 +83,7 @@ public class Kiosk extends JFrame implements ActionListener {
 
 		setFirstPageBtn();
 		setSecondPageBtn();
-
+//		selectItems = new Vector<>();
 		setVisible(true);
 		revalidate();
 	}
@@ -119,15 +121,14 @@ public class Kiosk extends JFrame implements ActionListener {
 	private void setSecondPageBtn() {
 		this.btnCoffee.setBounds((Kiosk.width / 2) - 50 - 50, 30, 100, 50);
 		this.btnTea.setBounds((Kiosk.width / 2), 30, 100, 50);
-		this.selectFinish.setBounds(400, 850, 120, 80);
+		this.selectFinish.setBounds((Kiosk.width / 2) - 60, 820, 120, 80);
 
 		this.btnCoffee.setBackground(Color.white); // 초기 선택창 - coffee
 		this.btnTea.setBackground(Color.gray);
-		this.selectFinish.setBackground(Color.orange);
+		this.selectFinish.setBackground(Color.yellow);
 
 		this.btnCoffee.setBorderPainted(false);
 		this.btnTea.setBorderPainted(false);
-		this.selectFinish.setBorderPainted(false);
 
 		this.btnCoffee.setText("Coffee");
 		this.btnTea.setText("Tea");
@@ -163,20 +164,21 @@ public class Kiosk extends JFrame implements ActionListener {
 			this.setContentPane(coffeeMenus);
 		}
 
-		add(showTable,0);
+		add(showTable, 0);
 		// 화면2 - 메뉴선택
 		if (e.getSource() == this.btnCoffee && this.getContentPane() == teaMenus) {
 			System.out.println("COFFEE");
 			this.setContentPane(coffeeMenus);
 			this.btnTea.setBackground(Color.gray);
 			this.btnCoffee.setBackground(Color.white);
-//			add(showTable,0);
-		} else if (e.getSource() == this.btnTea && this.getContentPane() == coffeeMenus) {
+		} 
+		if (e.getSource() == this.btnTea && this.getContentPane() == coffeeMenus) {
 			System.out.println("TEA");
 			this.setContentPane(teaMenus);
 			this.btnCoffee.setBackground(Color.gray);
 			this.btnTea.setBackground(Color.white);
 		}
+		add(showTable,0);
 		add(this.btnCoffee);
 		add(this.btnTea);
 		add(this.selectFinish);
@@ -191,9 +193,7 @@ public class Kiosk extends JFrame implements ActionListener {
 			this.setContentPane(payment);
 			setThirdPageBtn();
 		}
-		for (int i = 0; i < showTable.selectItems.size(); i++) {
-			System.out.println(showTable.selectItems.get(i).get(0));
-		}
+		
 		// 화면3 - 결제창
 		if (e.getSource() == this.card) {
 			this.setContentPane(payCard);

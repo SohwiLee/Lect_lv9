@@ -70,13 +70,13 @@ public class TeaPanel extends MyUtil {
 				if (target == this.menuBtn[i][j]) {
 					this.itemCount[i][j]++;
 					if (!table.itemOrdered[i][j]) { // 데이터 신규생성
-						table.addItems(this.itemNames[i][j], String.valueOf(this.itemPrices[i][j]),
+						addItems(this.itemNames[i][j], String.valueOf(this.itemPrices[i][j]),
 								String.valueOf(this.itemCount[i][j]));
 						table.itemOrdered[i][j] = true;
 					} else { // 개수추가
-						for (int k = 0; k < table.selectItems.size(); k++) {
-							if (this.itemNames[i][j] == table.selectItems.get(k).get(0)) {
-								table.selectItems.get(k).set(2, String.valueOf(itemCount[i][j]));
+						for (int k = 0; k < Kiosk.selectItems.size(); k++) {
+							if (this.itemNames[i][j] == Kiosk.selectItems.get(k).get(0)) {
+								Kiosk.selectItems.get(k).set(2, String.valueOf(itemCount[i][j]));
 							}
 						}
 					}
@@ -84,6 +84,18 @@ public class TeaPanel extends MyUtil {
 				}
 			}
 		}
+	}
+
+	public void addItems(String menu, String price, String count) {
+		Vector<String> itemList = new Vector<>();
+		itemList.add(menu); // 메뉴
+		itemList.add(price); // 가격
+		itemList.add(count); // 수량
+//		table.selectItems.add(itemList);
+		Kiosk.selectItems.add(itemList);
+
+		revalidate();
+		repaint();
 	}
 
 }
